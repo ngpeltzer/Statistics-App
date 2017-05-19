@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">StatiticsApp</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">Estadística App</string>
+    <string name="tab_calcular">Calcular</string>
+    <string name="tab_grafica">Gráfica</string>
+    <string name="tab_teoria">Teoría</string>
+    <string name="suma_media_rango_desviacion_estandar">Suma, Media, Rango y Desviación Estándar</string>
+    <string name="tab_calcular_label">Introduce números separados por espacios o símbolos</string>
 </resources>
