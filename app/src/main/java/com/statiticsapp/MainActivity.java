@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.statiticsapp.Utils.CSVHelper;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.descriptive.moment.Kurtosis;
+import org.apache.commons.math3.stat.descriptive.moment.Skewness;
 import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
@@ -39,17 +41,21 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     TabHost mainTabHost;
-    TextView sumTxt;
-    TextView mediaTxt;
-    TextView rangeTxt;
-    TextView maxTxt;
-    TextView minTxt;
-    TextView stdDeviationTxt;
-    TextView topLimitTxt;
-    TextView bottomLimitTxt;
-    TextView studentBilateralTxt;
-    TextView confidentIntervalTxt;
-    TextView sampleSizeTxt;
+    TextView mediaAritmeticaTxt;
+    TextView mediaGeometricaTxt;
+    TextView mediaArmonicaTxt;
+    TextView mediaCuadraticaTxt;
+    TextView medianaTxt;
+    TextView modaTxt;
+    TextView q1Txt;
+    TextView q2Txt;
+    TextView q3Txt;
+    TextView rangoTxt;
+    TextView desviacionMediaTxt;
+    TextView varianzaTxt;
+    TextView desviacionEstandarTxt;
+    TextView asimetriaTxt;
+    TextView curtosisTxt;
 
     private static String CALCULAR = "tab1";
     private static String GRAFICA = "tab2";
@@ -65,18 +71,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        sumTxt = (TextView) findViewById(R.id.tab_calcular_sum);
-        mediaTxt = (TextView) findViewById(R.id.tab_calcular_media);
-        rangeTxt = (TextView) findViewById(R.id.tab_calcular_range);
-        maxTxt = (TextView) findViewById(R.id.tab_calcular_max);
-        minTxt = (TextView) findViewById(R.id.tab_calcular_min);
-        stdDeviationTxt = (TextView) findViewById(R.id.tab_calcular_std_deviation);
-        topLimitTxt = (TextView) findViewById(R.id.tab_calcular_top_limit);
-        bottomLimitTxt = (TextView) findViewById(R.id.tab_calcular_bottom_limit);
-        studentBilateralTxt = (TextView) findViewById(R.id.tab_calcular_student_bilateral);
-        confidentIntervalTxt = (TextView) findViewById(R.id.tab_calcular_confident_interval);
-        sampleSizeTxt = (TextView) findViewById(R.id.tab_calcular_sample_size);
+        mediaAritmeticaTxt = (TextView) findViewById(R.id.tab_calcular_med_aritmetica);
+        mediaGeometricaTxt = (TextView) findViewById(R.id.tab_calcular_med_geometrica);
+        mediaArmonicaTxt = (TextView) findViewById(R.id.tab_calcular_med_armonica);
+        mediaCuadraticaTxt = (TextView) findViewById(R.id.tab_calcular_med_cuadratica);
+        medianaTxt = (TextView) findViewById(R.id.tab_calcular_mediana);
+        modaTxt = (TextView) findViewById(R.id.tab_calcular_moda);
+        q1Txt = (TextView) findViewById(R.id.tab_calcular_q1);
+        q2Txt = (TextView) findViewById(R.id.tab_calcular_q2);
+        q3Txt = (TextView) findViewById(R.id.tab_calcular_q3);
+        rangoTxt = (TextView) findViewById(R.id.tab_calcular_rango);
+        desviacionMediaTxt = (TextView) findViewById(R.id.tab_calcular_desv_media);
+        varianzaTxt = (TextView) findViewById(R.id.tab_calcular_varianza);
+        desviacionEstandarTxt = (TextView) findViewById(R.id.tab_calcular_desv_estandar);
+        asimetriaTxt = (TextView) findViewById(R.id.tab_calcular_asimetria);
+        curtosisTxt = (TextView) findViewById(R.id.tab_calcular_curtosis);
 
         // Main Tab Host
         mainTabHost = (TabHost) findViewById(R.id.activity_main_tab_host);
@@ -135,19 +144,7 @@ public class MainActivity extends AppCompatActivity {
             stats.addValue(983.4);
             stats.addValue(5);
 
-            double sum = stats.getSum();
-            double media = stats.getMean();
-            double range = stats.getMax() - stats.getMin();
-            double max = stats.getMax();
-            double min = stats.getMin();
-            double stdDeviation = stats.getStandardDeviation();
-            double topLimit = 0;
-            double bottomLimit = 0;
-            double studentBilateral = 0;
-            double confidentInterval = 0;
-            long sampleSize = stats.getN();
-
-            setTexts(sum, media, range, max, min, stdDeviation, topLimit, bottomLimit, studentBilateral, confidentInterval, sampleSize);
+            calculateAndShow(stats);
 
             // Chequear si la extensión del archivo es .csv
 
@@ -194,17 +191,45 @@ public class MainActivity extends AppCompatActivity {
         return displayName;
     }
 
-    void setTexts(double sum, double media, double range, double max, double min, double stdDeviation, double topLimit, double bottomLimit, double studentBilateral, double confidentInterval, long sampleSize) {
-        sumTxt.setText(String.format(Locale.getDefault(), "%.2f", sum));
-        mediaTxt.setText(String.format(Locale.getDefault(), "%.2f", media));
-        rangeTxt.setText(String.format(Locale.getDefault(), "%.2f", range));
-        maxTxt.setText(String.format(Locale.getDefault(), "%.2f", max));
-        minTxt.setText(String.format(Locale.getDefault(), "%.2f", min));
-        stdDeviationTxt.setText(String.format(Locale.getDefault(), "%.2f", stdDeviation));
-        topLimitTxt.setText(String.format(Locale.getDefault(), "%.2f", topLimit));
-        bottomLimitTxt.setText(String.format(Locale.getDefault(), "%.2f", bottomLimit));
-        studentBilateralTxt.setText(String.format(Locale.getDefault(), "%.2f", studentBilateral));
-        confidentIntervalTxt.setText(String.format(Locale.getDefault(), "%.2f", confidentInterval));
-        sampleSizeTxt.setText(String.valueOf(sampleSize));
+    void calculateAndShow(DescriptiveStatistics stats) {
+
+        // Medidas de Centralización
+        double mediaAritmetica = stats.getMean();
+        double mediaGeometrica = stats.getGeometricMean();
+        double mediaArmonica = 0;
+        double mediaCuadratica = stats.getQuadraticMean();
+        double mediana = stats.getPercentile(50);
+        double moda = 0;
+
+        // Medidas de Posición
+        double q1 = stats.getPercentile(25);
+        double q2 = stats.getPercentile(50);
+        double q3 = stats.getPercentile(75);
+
+        // Medidas de Dispersión
+        double rango = stats.getMax() - stats.getMin();
+        double desviacionMedia = 0;
+        double varianza = stats.getVariance();
+        double desviacionEstandar = stats.getStandardDeviation();
+
+        // Medidas de Forma
+        double asimetria = stats.getSkewness();
+        double curtosis = stats.getKurtosis();
+
+        mediaAritmeticaTxt.setText(String.valueOf(mediaAritmetica));
+        mediaGeometricaTxt.setText(String.valueOf(mediaGeometrica));
+        mediaArmonicaTxt.setText(String.valueOf(mediaArmonica));
+        mediaCuadraticaTxt.setText(String.valueOf(mediaCuadratica));
+        medianaTxt.setText(String.valueOf(mediana));
+        modaTxt.setText(String.valueOf(moda));
+        q1Txt.setText(String.valueOf(q1));
+        q2Txt.setText(String.valueOf(q2));
+        q3Txt.setText(String.valueOf(q3));
+        rangoTxt.setText(String.valueOf(rango));
+        desviacionMediaTxt.setText(String.valueOf(desviacionMedia));
+        varianzaTxt.setText(String.valueOf(varianza));
+        desviacionEstandarTxt.setText(String.valueOf(desviacionEstandar));
+        asimetriaTxt.setText(String.valueOf(asimetria));
+        curtosisTxt.setText(String.valueOf(curtosis));
     }
 }

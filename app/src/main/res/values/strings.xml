@@ -3,7 +3,5 @@
     <string name="tab_calcular">Calcular</string>
     <string name="tab_grafica">Gráfica</string>
     <string name="tab_teoria">Teoría</string>
-    <string name="suma_media_rango_desviacion_estandar">Suma, Media, Rango y Desviación Estándar</string>
-    <string name="tab_calcular_label">Introduce números separados por espacios o símbolos</string>
     <string name="menu_load">Cargar CSV</string>
 </resources>
