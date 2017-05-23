@@ -101,7 +101,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tab_calcular_med_aritmetica"
+                    android:id="@+id/tab_calculate_arithmetic_media"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
@@ -111,7 +111,7 @@
                     android:textSize="@dimen/text_size" />
 
                 <TextView
-                    android:id="@+id/tab_calcular_med_geometrica"
+                    android:id="@+id/tab_calculate_geometric_media"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
@@ -121,7 +121,7 @@
                     android:textSize="@dimen/text_size" />
 
                 <TextView
-                    android:id="@+id/tab_calcular_med_armonica"
+                    android:id="@+id/tab_calculate_armonic_media"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
@@ -131,7 +131,7 @@
                     android:textSize="@dimen/text_size" />
 
                 <TextView
-                    android:id="@+id/tab_calcular_med_cuadratica"
+                    android:id="@+id/tab_calculate_cuadratic_media"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
@@ -141,7 +141,7 @@
                     android:textSize="@dimen/text_size" />
 
                 <TextView
-                    android:id="@+id/tab_calcular_mediana"
+                    android:id="@+id/tab_calculate_median"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
@@ -151,7 +151,7 @@
                     android:textSize="@dimen/text_size" />
 
                 <TextView
-                    android:id="@+id/tab_calcular_moda"
+                    android:id="@+id/tab_calculate_mode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
@@ -211,6 +211,96 @@
                     android:layout_height="wrap_content"
                     android:text="Cuartil 3:"
                     android:textSize="@dimen/text_size"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size"
+                    android:text="Decil 1:" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size"
+                    android:text="Decil 2:" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size"
+                    android:text="Decil 3:" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size"
+                    android:text="Decil 4:" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size"
+                    android:text="Decil 5:" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size"
+                    android:text="Decil 6:" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size"
+                    android:text="Decil 7:" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size"
+                    android:text="Decil 8:" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size"
+                    android:text="Decil 9:" />
             </LinearLayout>
 
             <LinearLayout
@@ -219,7 +309,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tab_calcular_q1"
+                    android:id="@+id/tab_calculate_q1"
                     android:layout_width="match_parent"
                     android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
@@ -229,7 +319,7 @@
                     android:textSize="@dimen/text_size"/>
 
                 <TextView
-                    android:id="@+id/tab_calcular_q2"
+                    android:id="@+id/tab_calculate_q2"
                     android:layout_width="match_parent"
                     android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
@@ -239,7 +329,7 @@
                     android:textSize="@dimen/text_size"/>
 
                 <TextView
-                    android:id="@+id/tab_calcular_q3"
+                    android:id="@+id/tab_calculate_q3"
                     android:layout_width="match_parent"
                     android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
@@ -247,6 +337,96 @@
                     android:paddingTop="10dp"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tab_calculate_decil1"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tab_calculate_decil2"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tab_calculate_decil3"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tab_calculate_decil4"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tab_calculate_decil5"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tab_calculate_decil6"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tab_calculate_decil7"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tab_calculate_decil8"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tab_calculate_decil9"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size" />
             </LinearLayout>
         </LinearLayout>
 
@@ -308,6 +488,16 @@
                     android:paddingTop="10dp"
                     android:text="Desviación Estándar:"
                     android:textSize="@dimen/text_size"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:text="Coeficiente de Variaciòn:"
+                    android:textSize="@dimen/text_size"/>
             </LinearLayout>
 
             <LinearLayout
@@ -317,7 +507,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tab_calcular_rango"
+                    android:id="@+id/tab_calculate_range"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
@@ -327,7 +517,7 @@
                     android:textSize="@dimen/text_size"/>
 
                 <TextView
-                    android:id="@+id/tab_calcular_desv_media"
+                    android:id="@+id/tab_calculate_average_deviation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
@@ -337,7 +527,7 @@
                     android:textSize="@dimen/text_size"/>
 
                 <TextView
-                    android:id="@+id/tab_calcular_varianza"
+                    android:id="@+id/tab_calculate_variance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
@@ -347,7 +537,17 @@
                     android:textSize="@dimen/text_size"/>
 
                 <TextView
-                    android:id="@+id/tab_calcular_desv_estandar"
+                    android:id="@+id/tab_calculate_standard_deviation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textSize="@dimen/text_size"/>
+
+                <TextView
+                    android:id="@+id/tab_calculate_coefficient_variation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
@@ -405,7 +605,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tab_calcular_asimetria"
+                    android:id="@+id/tab_calculate_skewness"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
@@ -415,7 +615,7 @@
                     android:textSize="@dimen/text_size"/>
 
                 <TextView
-                    android:id="@+id/tab_calcular_curtosis"
+                    android:id="@+id/tab_calculate_kurtosis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"

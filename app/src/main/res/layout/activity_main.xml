@@ -30,11 +30,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 
-                    <include layout="@layout/tab_calcular" />
+                    <include layout="@layout/tab_calculate" />
 
-                    <include layout="@layout/tab_grafica" />
+                    <include layout="@layout/tab_graphs" />
 
-                    <include layout="@layout/tab_teoria" />
+                    <include layout="@layout/tab_theory" />
 
                 </FrameLayout>
             </ScrollView>

@@ -41,21 +41,31 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     TabHost mainTabHost;
-    TextView mediaAritmeticaTxt;
-    TextView mediaGeometricaTxt;
-    TextView mediaArmonicaTxt;
-    TextView mediaCuadraticaTxt;
-    TextView medianaTxt;
-    TextView modaTxt;
+    TextView arithmeticMediaTxt;
+    TextView geometricaMediaTxt;
+    TextView armonicMediaTxt;
+    TextView cuadraticMediaTxt;
+    TextView medianTxt;
+    TextView modeTxt;
     TextView q1Txt;
     TextView q2Txt;
     TextView q3Txt;
-    TextView rangoTxt;
-    TextView desviacionMediaTxt;
-    TextView varianzaTxt;
-    TextView desviacionEstandarTxt;
-    TextView asimetriaTxt;
-    TextView curtosisTxt;
+    TextView d1Txt;
+    TextView d2Txt;
+    TextView d3Txt;
+    TextView d4Txt;
+    TextView d5Txt;
+    TextView d6Txt;
+    TextView d7Txt;
+    TextView d8Txt;
+    TextView d9Txt;
+    TextView rangeTxt;
+    TextView averageDeviationTxt;
+    TextView varianceTxt;
+    TextView standardDeviationTxt;
+    TextView coefficientOfVariationTxt;
+    TextView skewnessTxt;
+    TextView kurtosisTxt;
 
     private static String CALCULAR = "tab1";
     private static String GRAFICA = "tab2";
@@ -71,21 +81,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mediaAritmeticaTxt = (TextView) findViewById(R.id.tab_calcular_med_aritmetica);
-        mediaGeometricaTxt = (TextView) findViewById(R.id.tab_calcular_med_geometrica);
-        mediaArmonicaTxt = (TextView) findViewById(R.id.tab_calcular_med_armonica);
-        mediaCuadraticaTxt = (TextView) findViewById(R.id.tab_calcular_med_cuadratica);
-        medianaTxt = (TextView) findViewById(R.id.tab_calcular_mediana);
-        modaTxt = (TextView) findViewById(R.id.tab_calcular_moda);
-        q1Txt = (TextView) findViewById(R.id.tab_calcular_q1);
-        q2Txt = (TextView) findViewById(R.id.tab_calcular_q2);
-        q3Txt = (TextView) findViewById(R.id.tab_calcular_q3);
-        rangoTxt = (TextView) findViewById(R.id.tab_calcular_rango);
-        desviacionMediaTxt = (TextView) findViewById(R.id.tab_calcular_desv_media);
-        varianzaTxt = (TextView) findViewById(R.id.tab_calcular_varianza);
-        desviacionEstandarTxt = (TextView) findViewById(R.id.tab_calcular_desv_estandar);
-        asimetriaTxt = (TextView) findViewById(R.id.tab_calcular_asimetria);
-        curtosisTxt = (TextView) findViewById(R.id.tab_calcular_curtosis);
+        arithmeticMediaTxt = (TextView) findViewById(R.id.tab_calculate_arithmetic_media);
+        geometricaMediaTxt = (TextView) findViewById(R.id.tab_calculate_geometric_media);
+        armonicMediaTxt = (TextView) findViewById(R.id.tab_calculate_armonic_media);
+        cuadraticMediaTxt = (TextView) findViewById(R.id.tab_calculate_cuadratic_media);
+        medianTxt = (TextView) findViewById(R.id.tab_calculate_median);
+        modeTxt = (TextView) findViewById(R.id.tab_calculate_mode);
+        q1Txt = (TextView) findViewById(R.id.tab_calculate_q1);
+        q2Txt = (TextView) findViewById(R.id.tab_calculate_q2);
+        q3Txt = (TextView) findViewById(R.id.tab_calculate_q3);
+        d1Txt = (TextView) findViewById(R.id.tab_calculate_decil1);
+        d2Txt = (TextView) findViewById(R.id.tab_calculate_decil2);
+        d3Txt = (TextView) findViewById(R.id.tab_calculate_decil3);
+        d4Txt = (TextView) findViewById(R.id.tab_calculate_decil4);
+        d5Txt = (TextView) findViewById(R.id.tab_calculate_decil5);
+        d6Txt = (TextView) findViewById(R.id.tab_calculate_decil6);
+        d7Txt = (TextView) findViewById(R.id.tab_calculate_decil7);
+        d8Txt = (TextView) findViewById(R.id.tab_calculate_decil8);
+        d9Txt = (TextView) findViewById(R.id.tab_calculate_decil9);
+        rangeTxt = (TextView) findViewById(R.id.tab_calculate_range);
+        averageDeviationTxt = (TextView) findViewById(R.id.tab_calculate_average_deviation);
+        varianceTxt = (TextView) findViewById(R.id.tab_calculate_variance);
+        standardDeviationTxt = (TextView) findViewById(R.id.tab_calculate_standard_deviation);
+        coefficientOfVariationTxt = (TextView) findViewById(R.id.tab_calculate_coefficient_variation);
+        skewnessTxt = (TextView) findViewById(R.id.tab_calculate_skewness);
+        kurtosisTxt = (TextView) findViewById(R.id.tab_calculate_kurtosis);
 
         // Main Tab Host
         mainTabHost = (TabHost) findViewById(R.id.activity_main_tab_host);
@@ -193,43 +213,65 @@ public class MainActivity extends AppCompatActivity {
 
     void calculateAndShow(DescriptiveStatistics stats) {
 
-        // Medidas de Centralización
-        double mediaAritmetica = stats.getMean();
-        double mediaGeometrica = stats.getGeometricMean();
-        double mediaArmonica = 0;
-        double mediaCuadratica = stats.getQuadraticMean();
-        double mediana = stats.getPercentile(50);
-        double moda = 0;
+        // Centralization Measures
+        double arithmeticMedia = stats.getMean();
+        double geometricaMedia = stats.getGeometricMean();
+        double armonicMedia = 0;
+        double cuadraticMedia = stats.getQuadraticMean();
+        double median = stats.getPercentile(50);
+        double mode = 0;
 
-        // Medidas de Posición
+        // Position Measures
         double q1 = stats.getPercentile(25);
         double q2 = stats.getPercentile(50);
         double q3 = stats.getPercentile(75);
+        double d1 = stats.getPercentile(10);
+        double d2 = stats.getPercentile(20);
+        double d3 = stats.getPercentile(30);
+        double d4 = stats.getPercentile(40);
+        double d5 = stats.getPercentile(50);
+        double d6 = stats.getPercentile(60);
+        double d7 = stats.getPercentile(70);
+        double d8 = stats.getPercentile(80);
+        double d9 = stats.getPercentile(90);
 
-        // Medidas de Dispersión
-        double rango = stats.getMax() - stats.getMin();
-        double desviacionMedia = 0;
-        double varianza = stats.getVariance();
-        double desviacionEstandar = stats.getStandardDeviation();
+        // TODO Calculate centils - (k * stats.getN())/ 100 - Where k is the centil value searched
 
-        // Medidas de Forma
-        double asimetria = stats.getSkewness();
-        double curtosis = stats.getKurtosis();
+        // Dispersion Measures
+        double range = stats.getMax() - stats.getMin();
+        double averageDeviation = 0;
+        double variance = stats.getVariance();
+        double standardDeviation = stats.getStandardDeviation();
+        double coefficientOfVariation = 0;
 
-        mediaAritmeticaTxt.setText(String.valueOf(mediaAritmetica));
-        mediaGeometricaTxt.setText(String.valueOf(mediaGeometrica));
-        mediaArmonicaTxt.setText(String.valueOf(mediaArmonica));
-        mediaCuadraticaTxt.setText(String.valueOf(mediaCuadratica));
-        medianaTxt.setText(String.valueOf(mediana));
-        modaTxt.setText(String.valueOf(moda));
+        // Measures of Form
+        double skewness = stats.getSkewness();
+        double kurtosis = stats.getKurtosis();
+
+        arithmeticMediaTxt.setText(String.valueOf(arithmeticMedia));
+        geometricaMediaTxt.setText(String.valueOf(geometricaMedia));
+        armonicMediaTxt.setText(String.valueOf(armonicMedia));
+        cuadraticMediaTxt.setText(String.valueOf(cuadraticMedia));
+        medianTxt.setText(String.valueOf(median));
+        modeTxt.setText(String.valueOf(mode));
         q1Txt.setText(String.valueOf(q1));
         q2Txt.setText(String.valueOf(q2));
         q3Txt.setText(String.valueOf(q3));
-        rangoTxt.setText(String.valueOf(rango));
-        desviacionMediaTxt.setText(String.valueOf(desviacionMedia));
-        varianzaTxt.setText(String.valueOf(varianza));
-        desviacionEstandarTxt.setText(String.valueOf(desviacionEstandar));
-        asimetriaTxt.setText(String.valueOf(asimetria));
-        curtosisTxt.setText(String.valueOf(curtosis));
+        d1Txt.setText(String.valueOf(d1));
+        d2Txt.setText(String.valueOf(d2));
+        d3Txt.setText(String.valueOf(d3));
+        d4Txt.setText(String.valueOf(d4));
+        d5Txt.setText(String.valueOf(d5));
+        d6Txt.setText(String.valueOf(d6));
+        d7Txt.setText(String.valueOf(d7));
+        d8Txt.setText(String.valueOf(d8));
+        d9Txt.setText(String.valueOf(d9));
+        rangeTxt.setText(String.valueOf(range));
+        averageDeviationTxt.setText(String.valueOf(averageDeviation));
+        varianceTxt.setText(String.valueOf(variance));
+        standardDeviationTxt.setText(String.valueOf(standardDeviation));
+        coefficientOfVariationTxt.setText(String.valueOf(coefficientOfVariation));
+        skewnessTxt.setText(String.valueOf(skewness));
+        kurtosisTxt.setText(String.valueOf(kurtosis));
     }
 }
