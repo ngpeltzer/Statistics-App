@@ -110,6 +110,26 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="10dp"
+                android:text="Máximo:"
+                android:textSize="@dimen/text_size"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:text="Mínimo:"
+                android:textSize="@dimen/text_size"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
                 android:text="Desviación Estándar (Muestra):"
                 android:textSize="@dimen/text_size" />
 
@@ -167,10 +187,10 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="right"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tab_calcular_sum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
@@ -180,6 +200,7 @@
                 android:textSize="@dimen/text_size" />
 
             <TextView
+                android:id="@+id/tab_calcular_media"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
@@ -189,6 +210,7 @@
                 android:textSize="@dimen/text_size" />
 
             <TextView
+                android:id="@+id/tab_calcular_range"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
@@ -198,6 +220,27 @@
                 android:textSize="@dimen/text_size" />
 
             <TextView
+                android:id="@+id/tab_calcular_max"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:textSize="@dimen/text_size"/>
+
+            <TextView
+                android:id="@+id/tab_calcular_min"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:textSize="@dimen/text_size"/>
+
+            <TextView
+                android:id="@+id/tab_calcular_std_deviation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
@@ -207,6 +250,7 @@
                 android:textSize="@dimen/text_size" />
 
             <TextView
+                android:id="@+id/tab_calcular_top_limit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
@@ -216,6 +260,7 @@
                 android:textSize="@dimen/text_size" />
 
             <TextView
+                android:id="@+id/tab_calcular_bottom_limit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
@@ -225,6 +270,7 @@
                 android:textSize="@dimen/text_size" />
 
             <TextView
+                android:id="@+id/tab_calcular_student_bilateral"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
@@ -234,6 +280,7 @@
                 android:textSize="@dimen/text_size" />
 
             <TextView
+                android:id="@+id/tab_calcular_confident_interval"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
@@ -243,6 +290,7 @@
                 android:textSize="@dimen/text_size" />
 
             <TextView
+                android:id="@+id/tab_calcular_sample_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
@@ -252,11 +300,5 @@
                 android:textSize="@dimen/text_size" />
         </LinearLayout>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/tab_calcular_get_csv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cargar archivo csv" />
 
 </LinearLayout>
