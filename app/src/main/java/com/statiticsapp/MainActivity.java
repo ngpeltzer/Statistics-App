@@ -21,7 +21,8 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.statiticsapp.Utils.CSVHelper;
+import com.google.common.primitives.Doubles;
+import com.opencsv.CSVReader;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.stat.descriptive.moment.Kurtosis;
@@ -30,11 +31,15 @@ import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -155,41 +160,43 @@ public class MainActivity extends AppCompatActivity {
 
         if(resultCode == RESULT_OK && requestCode == OPEN_CSV_FILE) {
 
-            DescriptiveStatistics stats = new DescriptiveStatistics();
-            stats.addValue(142.5);
+            /*DescriptiveStatistics stats = new DescriptiveStatistics();
+            stats.addValue(25.5);
             stats.addValue(25);
             stats.addValue(33);
-            stats.addValue(87.48);
+            stats.addValue(44.48);
             stats.addValue(54.15155);
-            stats.addValue(983.4);
-            stats.addValue(5);
+            stats.addValue(23.4);
+            stats.addValue(45);
 
-            calculateAndShow(stats);
+            calculateAndShow(stats);*/
 
-            // Chequear si la extensión del archivo es .csv
+            //List<Double> csvData = new ArrayList<Double>();
+            FileInputStream fis;
+            CSVReader csvReader;
 
-            /*Uri uri = data.getData();
-            String filePath = data.getData().getPath();
-            if(!filePath.equals("")) {
-                File csvFile = new File(filePath);
-                FileInputStream fis;
-                CSVHelper csvHelper;
-
-                try {
-                    fis = new FileInputStream(csvFile);
-                    csvHelper = new CSVHelper(fis);
-                    //csvData = csvHelper.read();
-                } catch (FileNotFoundException ex) {
-                    Log.d("FileNotFoundExc", ex.getMessage());
-                } catch (Exception ex) {
-                    Log.d("Exception", ex.getMessage());
-                } finally {
-
+            try {
+                fis = (FileInputStream)getContentResolver().openInputStream(data.getData());
+                csvReader = new CSVReader(new FileReader(fis.getFD()));
+                String values[] = csvReader.readNext();
+                List<Double> doubleValues = new ArrayList<Double>();
+                for(int i=0;i<values.length;i++)
+                {
+                    doubleValues.add(Double.valueOf(values[i]));
                 }
-            } else {
-                Toast.makeText(this, "Seleccione un archivo .CSV válido", Toast.LENGTH_SHORT).show();
-            }*/
+                DescriptiveStatistics stats2 = new DescriptiveStatistics(Doubles.toArray(doubleValues));
+                calculateAndShow(stats2);
+            } catch (FileNotFoundException ex) {
+                Log.d("FileNotFoundExc", ex.getMessage());
+            } catch (Exception ex) {
+                Log.d("Exception", ex.getMessage());
+            } finally {
+
+            }
+        } else {
+            Toast.makeText(this, "Seleccione un archivo .CSV válido", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     String getRealPathFromUri(Uri uri) {
