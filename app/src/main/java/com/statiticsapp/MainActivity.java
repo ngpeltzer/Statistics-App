@@ -21,6 +21,8 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.google.common.primitives.Doubles;
 import com.opencsv.CSVReader;
 
@@ -71,13 +73,14 @@ public class MainActivity extends AppCompatActivity {
     TextView coefficientOfVariationTxt;
     TextView skewnessTxt;
     TextView kurtosisTxt;
+    PDFView pdfView;
 
-    private static String CALCULAR = "tab1";
-    private static String GRAFICA = "tab2";
-    private static String TEORIA = "tab3";
-    private static int CALCULAR_TAB = 0;
-    private static int GRAFICA_TAB = 1;
-    private static int TEORIA_TAB = 2;
+    private static String CALCULATE = "tab1";
+    private static String GRAPHICS = "tab2";
+    private static String THEORY = "tab3";
+    private static int CALCULATE_TAB = 0;
+    private static int GRAPHICS_TAB = 1;
+    private static int THEORY_TAB = 2;
 
     private static int OPEN_CSV_FILE = 3;
 
@@ -85,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        pdfView = (PDFView) findViewById(R.id.tab_theory_pdf_view);
 
         arithmeticMediaTxt = (TextView) findViewById(R.id.tab_calculate_arithmetic_media);
         geometricaMediaTxt = (TextView) findViewById(R.id.tab_calculate_geometric_media);
@@ -117,24 +122,31 @@ public class MainActivity extends AppCompatActivity {
         mainTabHost.setup();
 
         // Tab Calcular
-        TabHost.TabSpec spec = mainTabHost.newTabSpec(CALCULAR);
+        TabHost.TabSpec spec = mainTabHost.newTabSpec(CALCULATE);
         spec.setContent(R.id.tab1);
         spec.setIndicator("Cálculos");
         mainTabHost.addTab(spec);
 
         // Tab Gráfica
-        spec = mainTabHost.newTabSpec(GRAFICA);
+        spec = mainTabHost.newTabSpec(GRAPHICS);
         spec.setContent(R.id.tab2);
         spec.setIndicator("Gráficos");
         mainTabHost.addTab(spec);
 
         // Tab Teoría
-        spec = mainTabHost.newTabSpec(TEORIA);
+        spec = mainTabHost.newTabSpec(THEORY);
         spec.setContent(R.id.tab3);
         spec.setIndicator("Teoría");
         mainTabHost.addTab(spec);
 
-        mainTabHost.setCurrentTab(CALCULAR_TAB);
+        mainTabHost.setCurrentTab(CALCULATE_TAB);
+
+        pdfView.fromAsset("theory.pdf")
+                .enableSwipe(true)
+                .swipeHorizontal(true)
+                .enableDoubletap(true)
+                .scrollHandle(new DefaultScrollHandle(this))
+                .load();
     }
 
     @Override
