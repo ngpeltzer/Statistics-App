@@ -1,2 +1,2 @@
 # StatiticsApp
-App para la materia "Estadística" de la carrera Ingenieria en Informática de la FICH
+App para la materia "Estadística" de la carrera Ingeniería en Informática de la FICH
