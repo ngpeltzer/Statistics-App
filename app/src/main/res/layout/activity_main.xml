@@ -14,21 +14,17 @@
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@android:id/tabcontent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:layout_below="@android:id/tabs">
 
                     <include layout="@layout/tab_calculate" />
 
@@ -37,17 +33,17 @@
                     <include layout="@layout/tab_theory" />
 
                 </FrameLayout>
-            </ScrollView>
 
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="-4dp"
-                android:layout_weight="0" />
+                android:layout_weight="0"
+                android:layout_alignParentTop="true"/>
 
 
-        </LinearLayout>
+        </RelativeLayout>
     </TabHost>
 
 </LinearLayout>

@@ -119,13 +119,13 @@ public class MainActivity extends AppCompatActivity {
         // Tab Calcular
         TabHost.TabSpec spec = mainTabHost.newTabSpec(CALCULAR);
         spec.setContent(R.id.tab1);
-        spec.setIndicator("Calcular");
+        spec.setIndicator("Cálculos");
         mainTabHost.addTab(spec);
 
         // Tab Gráfica
         spec = mainTabHost.newTabSpec(GRAFICA);
         spec.setContent(R.id.tab2);
-        spec.setIndicator("Gráfica");
+        spec.setIndicator("Gráficos");
         mainTabHost.addTab(spec);
 
         // Tab Teoría
