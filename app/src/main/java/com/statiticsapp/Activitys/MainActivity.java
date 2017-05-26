@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -30,10 +31,12 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.opencsv.CSVReader;
 import com.statiticsapp.Adapters.CalculateExpandableListAdapter;
+import com.statiticsapp.Model.Stem;
 import com.statiticsapp.R;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.w3c.dom.Text;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,6 +47,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     PDFView pdfView;
     //GraphView graphView;
     BarChart graphView;
+    TextView stemTxt;
+    TextView leafTxt;
     ExpandableListView calculateExpandableListView;
     CalculateExpandableListAdapter cela;
 
@@ -88,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
         pdfView = (PDFView) findViewById(R.id.tab_theory_pdf_view);
         //graphView = (GraphView) findViewById(R.id.tab_graphs_graph_view);
         graphView = (BarChart) findViewById(R.id.tab_graphs_graph_view);
+        stemTxt = (TextView) findViewById(R.id.tab_graphs_stem);
+        leafTxt = (TextView) findViewById(R.id.tab_graphs_leaf);
 
         // Main Tab Host
         mainTabHost = (TabHost) findViewById(R.id.activity_main_tab_host);
@@ -231,8 +240,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void showGraphics(DescriptiveStatistics stats) {
-
+        // Data for Histogram and Steam And Leaf Diagrams
         double[] data = stats.getValues();
+
+        // Histogram diagram
         double max = stats.getMax();
         double min = stats.getMin();
 
@@ -256,6 +267,23 @@ public class MainActivity extends AppCompatActivity {
         graphView.getXAxis().setValueFormatter(new IndexAxisValueFormatter(entriesLabels));
         graphView.animateXY(2000, 2000);
         //graphView.invalidate();
+
+        // Stem and leaf diagram
+        List<Stem> steamAndLeafData = calculateStemAndLeaf(data);
+        //List<Integer> stems = steamAndLeafData.get("Steams");
+        //List<Integer> leafs = steamAndLeafData.get("Leafs");
+        String stemsString = "";
+        String leafsString = "";
+
+        /*for(int i = 0; i < stems.size(); i++) {
+            stemsString += stems.get(i) + "\n";
+            for(int j = 0; j < leafs.size(); j++) {
+
+            }
+        }*/
+
+        stemTxt.setText(stemsString);
+        leafTxt.setText(leafsString);
 
         /*DataPoint[] dataPoints = new DataPoint[bins.length];
         for(int i = 0; i < bins.length; i++) {
@@ -295,6 +323,36 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
+    List<Integer> calculateStems(double[] data) {
+        List<Integer> stems = new ArrayList<>();
+        for (int i = 0; i < data.length; i++) {
+            int stemNumber = (int) data[i];
+            if (!stems.contains(stemNumber)) {
+                stems.add(stemNumber);
+            }
+        }
+        return stems;
+    }
+
+    List<Integer> calculateLeafs(double[] data, List<Stem> stems) {
+        return null;
+    }
+
+    List<Stem> calculateStemAndLeaf(double[] data) {
+        List<Integer> stems = calculateStems(data);
+        List<Stem> result = new ArrayList<>();
+
+        for(int i = 0; i < data.length; i++) {
+            int actualStem = (int)data[i];
+            if(stems.contains(actualStem)) {
+                
+            }
+            double leaf = data[i] - actualStem;
+        }
+
+        return result;
+    }
+
     HashMap<String, double[]> calculateHistogram(double[] data, double max, double min, int numBins) {
         HashMap<String, double[]> histogramData = new HashMap<>();
         double binSize = calculateBinSize(max, min, numBins);
@@ -304,8 +362,8 @@ public class MainActivity extends AppCompatActivity {
         for(double number : data) {
             int bin = (int) ((number - min) / binSize); // Calculate the class where "number" goes
 
-            if(bin >= 0 && bin < numBins) {        // If the class is not in the interval (0 - numBins),
-                values[bin] += 1;                  // it means that the number was higher than max value or lower than min value
+            if(bin >= 0 && bin < numBins) {             // If the class is not in the interval (0 - numBins),
+                values[bin] += 1;                       // it means that the number was higher than max value or lower than min value
             }
         }
 

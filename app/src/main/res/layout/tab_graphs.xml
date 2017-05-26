@@ -25,6 +25,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
                 android:layout_margin="@dimen/graph_view_margin" />
+
+            <LinearLayout
+                android:id="@+id/tab_graphs_stem_leaf_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/linear_layout_margin"
+                android:orientation="horizontal"
+                android:padding="@dimen/linear_layout_padding">
+
+                <TextView
+                    android:id="@+id/tab_graphs_stem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="textStart" />
+
+                <TextView
+                    android:id="@+id/tab_graphs_leaf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
