@@ -1,49 +1,46 @@
-package com.statiticsapp;
+package com.statiticsapp.Activitys;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.OpenableColumns;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TabHost;
-import android.widget.TabWidget;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.common.primitives.Doubles;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.opencsv.CSVReader;
 import com.statiticsapp.Adapters.CalculateExpandableListAdapter;
+import com.statiticsapp.R;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-import org.apache.commons.math3.stat.descriptive.moment.Kurtosis;
-import org.apache.commons.math3.stat.descriptive.moment.Skewness;
-import org.w3c.dom.Text;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -51,32 +48,9 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     TabHost mainTabHost;
-    /*TextView arithmeticMediaTxt;
-    TextView geometricaMediaTxt;
-    TextView armonicMediaTxt;
-    TextView cuadraticMediaTxt;
-    TextView medianTxt;
-    TextView modeTxt;
-    TextView q1Txt;
-    TextView q2Txt;
-    TextView q3Txt;
-    TextView d1Txt;
-    TextView d2Txt;
-    TextView d3Txt;
-    TextView d4Txt;
-    TextView d5Txt;
-    TextView d6Txt;
-    TextView d7Txt;
-    TextView d8Txt;
-    TextView d9Txt;
-    TextView rangeTxt;
-    TextView averageDeviationTxt;
-    TextView varianceTxt;
-    TextView standardDeviationTxt;
-    TextView coefficientOfVariationTxt;
-    TextView skewnessTxt;
-    TextView kurtosisTxt;*/
     PDFView pdfView;
+    //GraphView graphView;
+    BarChart graphView;
     ExpandableListView calculateExpandableListView;
     CalculateExpandableListAdapter cela;
 
@@ -93,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private static String POSITION_MEASURES = "Medidas de Posición";
     private static String DISPERTION_MEASURES = "Medidas de Dispersión";
     private static String FORM_MEASURES = "Medidas de Forma";
+    private static int BIN_COUNT = 10;
 
     private static int CALCULATE_TAB = 0;
     private static int GRAPHICS_TAB = 1;
@@ -111,32 +86,8 @@ public class MainActivity extends AppCompatActivity {
         formValues = new ArrayList<>();
 
         pdfView = (PDFView) findViewById(R.id.tab_theory_pdf_view);
-
-        /*arithmeticMediaTxt = (TextView) findViewById(R.id.tab_calculate_arithmetic_media);
-        geometricaMediaTxt = (TextView) findViewById(R.id.tab_calculate_geometric_media);
-        armonicMediaTxt = (TextView) findViewById(R.id.tab_calculate_armonic_media);
-        cuadraticMediaTxt = (TextView) findViewById(R.id.tab_calculate_cuadratic_media);
-        medianTxt = (TextView) findViewById(R.id.tab_calculate_median);
-        modeTxt = (TextView) findViewById(R.id.tab_calculate_mode);
-        q1Txt = (TextView) findViewById(R.id.tab_calculate_q1);
-        q2Txt = (TextView) findViewById(R.id.tab_calculate_q2);
-        q3Txt = (TextView) findViewById(R.id.tab_calculate_q3);
-        d1Txt = (TextView) findViewById(R.id.tab_calculate_decil1);
-        d2Txt = (TextView) findViewById(R.id.tab_calculate_decil2);
-        d3Txt = (TextView) findViewById(R.id.tab_calculate_decil3);
-        d4Txt = (TextView) findViewById(R.id.tab_calculate_decil4);
-        d5Txt = (TextView) findViewById(R.id.tab_calculate_decil5);
-        d6Txt = (TextView) findViewById(R.id.tab_calculate_decil6);
-        d7Txt = (TextView) findViewById(R.id.tab_calculate_decil7);
-        d8Txt = (TextView) findViewById(R.id.tab_calculate_decil8);
-        d9Txt = (TextView) findViewById(R.id.tab_calculate_decil9);
-        rangeTxt = (TextView) findViewById(R.id.tab_calculate_range);
-        averageDeviationTxt = (TextView) findViewById(R.id.tab_calculate_average_deviation);
-        varianceTxt = (TextView) findViewById(R.id.tab_calculate_variance);
-        standardDeviationTxt = (TextView) findViewById(R.id.tab_calculate_standard_deviation);
-        coefficientOfVariationTxt = (TextView) findViewById(R.id.tab_calculate_coefficient_variation);
-        skewnessTxt = (TextView) findViewById(R.id.tab_calculate_skewness);
-        kurtosisTxt = (TextView) findViewById(R.id.tab_calculate_kurtosis);*/
+        //graphView = (GraphView) findViewById(R.id.tab_graphs_graph_view);
+        graphView = (BarChart) findViewById(R.id.tab_graphs_graph_view);
 
         // Main Tab Host
         mainTabHost = (TabHost) findViewById(R.id.activity_main_tab_host);
@@ -162,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         mainTabHost.setCurrentTab(CALCULATE_TAB);
 
-        // Set the ExpandableListView
+        // Set labels of the ExpandableListView
         List<String> listTitles = new ArrayList<>();
         listTitles.add(CENTRAL_TENDENCY_MEASURES);
         listTitles.add(POSITION_MEASURES);
@@ -204,23 +155,10 @@ public class MainActivity extends AppCompatActivity {
         formLabels.add("Asimetria:");
         formLabels.add("Curtosis:");
 
-        for(int i = 0; i < listTitles.size(); i++) {
-            switch (i) {
-                case 0:
-                    labelsHashMap.put(listTitles.get(i), centralTendencyLabels);
-                break;
-                case 1:
-                    labelsHashMap.put(listTitles.get(i), positionLabels);
-                    break;
-                case 2:
-                    labelsHashMap.put(listTitles.get(i), dispertionLabels);
-                    break;
-                case 3:
-                    labelsHashMap.put(listTitles.get(i), formLabels);
-                    break;
-            }
-
-        }
+        labelsHashMap.put(listTitles.get(0), centralTendencyLabels);
+        labelsHashMap.put(listTitles.get(1), positionLabels);
+        labelsHashMap.put(listTitles.get(2), dispertionLabels);
+        labelsHashMap.put(listTitles.get(3), formLabels);
 
         valuesHashMap = new HashMap<>();
         valuesHashMap.put(CENTRAL_TENDENCY_MEASURES, centralTendencyValues);
@@ -279,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
 
                 DescriptiveStatistics stats = new DescriptiveStatistics(Doubles.toArray(doubleValues));
                 calculateAndShow(stats);
+                showGraphics(stats);
             } catch (FileNotFoundException ex) {
                 Log.d("FileNotFoundExc", ex.getMessage());
             } catch (Exception ex) {
@@ -289,7 +228,90 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Seleccione un archivo .CSV válido", Toast.LENGTH_SHORT).show();
         }
+    }
 
+    void showGraphics(DescriptiveStatistics stats) {
+
+        double[] data = stats.getValues();
+        double max = stats.getMax();
+        double min = stats.getMin();
+
+        HashMap<String, double[]> histogramData = calculateHistogram(data, max, min, BIN_COUNT);
+        double[] bins = histogramData.get("Bins");
+        double[] values = histogramData.get("Values");
+
+        List<BarEntry> entries = new ArrayList<>();
+        final List<String> entriesLabels = new ArrayList<>();
+        for(int i = 0; i < bins.length; i++) {
+            entriesLabels.add(String.format("%.2f", bins[i]));
+            entries.add(new BarEntry(i, (float)values[i]));
+        }
+
+        BarDataSet dataSet = new BarDataSet(entries, "");
+        BarData graphicData = new BarData(dataSet);
+        graphView.setData(graphicData);
+        graphView.setDoubleTapToZoomEnabled(true);
+        graphView.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        graphView.getDescription().setText("");
+        graphView.getXAxis().setValueFormatter(new IndexAxisValueFormatter(entriesLabels));
+        graphView.animateXY(2000, 2000);
+        //graphView.invalidate();
+
+        /*DataPoint[] dataPoints = new DataPoint[bins.length];
+        for(int i = 0; i < bins.length; i++) {
+            dataPoints[i] = new DataPoint(bins[i], values[i]);
+        }
+        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPoints);
+        series.setSpacing(50);
+
+        String[] stringBins = new String[values.length];
+        for(int i = 0; i < bins.length; i++) {
+            stringBins[i] = String.format("%.2f", bins[i]);
+        }
+        StaticLabelsFormatter slf = new StaticLabelsFormatter(graphView);
+        slf.setHorizontalLabels(stringBins);
+
+        graphView.addSeries(series);
+        graphView.getViewport().setScalable(true);
+        graphView.getViewport().setScalableY(true);
+        graphView.getGridLabelRenderer().setLabelFormatter(slf);
+        //graphView.getLegendRenderer().setVisible(true);
+        //graphView.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);*/
+    }
+
+    double calculateBinSize(double max, double min, int numBins) {
+        double range = max - min;
+        double binSize = range/numBins;
+        return binSize;
+    }
+
+    double[] calculateBins(int numBins, double binSize, double min) {
+        double[] result = new double[numBins];
+        result[0] = min;
+
+        for(int i = 1; i < numBins; i++) {
+            result[i] = binSize + result[i - 1];
+        }
+        return result;
+    }
+
+    HashMap<String, double[]> calculateHistogram(double[] data, double max, double min, int numBins) {
+        HashMap<String, double[]> histogramData = new HashMap<>();
+        double binSize = calculateBinSize(max, min, numBins);
+        double[] bins = calculateBins(numBins, binSize, min);    // Calculate the bins to show in the histogram
+        double[] values = new double[numBins];
+
+        for(double number : data) {
+            int bin = (int) ((number - min) / binSize); // Calculate the class where "number" goes
+
+            if(bin >= 0 && bin < numBins) {        // If the class is not in the interval (0 - numBins),
+                values[bin] += 1;                  // it means that the number was higher than max value or lower than min value
+            }
+        }
+
+        histogramData.put("Bins", bins);
+        histogramData.put("Values", values);
+        return histogramData;
     }
 
     void calculateAndShow(DescriptiveStatistics stats) {

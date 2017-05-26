@@ -5,4 +5,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!--<com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/graph_view_margin"
+        android:id="@+id/tab_graphs_graph_view" />-->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/tab_graphs_graph_view"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_margin="@dimen/graph_view_margin" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

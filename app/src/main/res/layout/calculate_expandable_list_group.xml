@@ -7,20 +7,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/linear_layout_margin"
         android:layout_weight="1"
-        android:textAlignment="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:textAlignment="center">
 
         <TextView
             android:id="@+id/calculate_expandable_list_group_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
+            android:paddingBottom="@dimen/text_view_padding_bottom"
+            android:paddingLeft="@dimen/text_view_padding_left"
+            android:paddingRight="@dimen/text_view_padding_right"
+            android:paddingTop="@dimen/text_view_padding_top"
             android:textAlignment="center" />
     </LinearLayout>
 
