@@ -4,7 +4,8 @@
     <string name="tab_grafica">Gráfica</string>
     <string name="tab_teoria">Teoría</string>
     <string name="menu_load">Cargar datos muestra</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="cancel">Cancelar</string>
+    <string name="generate">Generar</string>
+    <string name="histogram">Histograma</string>
+    <string name="stem_and_leaf">Diagrama de Tallo y Hoja</string>
 </resources>

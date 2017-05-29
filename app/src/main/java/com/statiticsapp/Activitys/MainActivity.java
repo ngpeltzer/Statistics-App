@@ -22,6 +22,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.google.common.math.DoubleMath;
 import com.google.common.primitives.Doubles;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
@@ -36,17 +37,23 @@ import com.statiticsapp.R;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.util.Precision;
 import org.w3c.dom.Text;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -240,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void showGraphics(DescriptiveStatistics stats) {
-        // Data for Histogram and Steam And Leaf Diagrams
+        // Data for Histogram and Steam And Leaf diagrams
         double[] data = stats.getValues();
 
         // Histogram diagram
@@ -266,45 +273,25 @@ public class MainActivity extends AppCompatActivity {
         graphView.getDescription().setText("");
         graphView.getXAxis().setValueFormatter(new IndexAxisValueFormatter(entriesLabels));
         graphView.animateXY(2000, 2000);
-        //graphView.invalidate();
 
         // Stem and leaf diagram
-        List<Stem> steamAndLeafData = calculateStemAndLeaf(data);
-        //List<Integer> stems = steamAndLeafData.get("Steams");
-        //List<Integer> leafs = steamAndLeafData.get("Leafs");
-        String stemsString = "";
-        String leafsString = "";
+        HashMap<Integer, List<Integer>> steamAndLeafData = calculateStemsAndLeafs(data);
+        Iterator mapIterator = steamAndLeafData.entrySet().iterator();
+        String stemsString = "Tallo\n\n";
+        String leafsString = "Hoja\n\n";
 
-        /*for(int i = 0; i < stems.size(); i++) {
-            stemsString += stems.get(i) + "\n";
-            for(int j = 0; j < leafs.size(); j++) {
-
+        while(mapIterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) mapIterator.next();
+            stemsString += entry.getKey() + "\n";
+            List<Integer> leafs = (List<Integer>) entry.getValue();
+            for(int i = 0; i < leafs.size(); i++) {
+                leafsString += leafs.get(i).toString() + " ";
             }
-        }*/
+            leafsString += "\n";
+        }
 
         stemTxt.setText(stemsString);
         leafTxt.setText(leafsString);
-
-        /*DataPoint[] dataPoints = new DataPoint[bins.length];
-        for(int i = 0; i < bins.length; i++) {
-            dataPoints[i] = new DataPoint(bins[i], values[i]);
-        }
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPoints);
-        series.setSpacing(50);
-
-        String[] stringBins = new String[values.length];
-        for(int i = 0; i < bins.length; i++) {
-            stringBins[i] = String.format("%.2f", bins[i]);
-        }
-        StaticLabelsFormatter slf = new StaticLabelsFormatter(graphView);
-        slf.setHorizontalLabels(stringBins);
-
-        graphView.addSeries(series);
-        graphView.getViewport().setScalable(true);
-        graphView.getViewport().setScalableY(true);
-        graphView.getGridLabelRenderer().setLabelFormatter(slf);
-        //graphView.getLegendRenderer().setVisible(true);
-        //graphView.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);*/
     }
 
     double calculateBinSize(double max, double min, int numBins) {
@@ -323,31 +310,23 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
-    List<Integer> calculateStems(double[] data) {
-        List<Integer> stems = new ArrayList<>();
-        for (int i = 0; i < data.length; i++) {
-            int stemNumber = (int) data[i];
-            if (!stems.contains(stemNumber)) {
-                stems.add(stemNumber);
-            }
-        }
-        return stems;
-    }
-
-    List<Integer> calculateLeafs(double[] data, List<Stem> stems) {
-        return null;
-    }
-
-    List<Stem> calculateStemAndLeaf(double[] data) {
-        List<Integer> stems = calculateStems(data);
-        List<Stem> result = new ArrayList<>();
+    HashMap<Integer, List<Integer>> calculateStemsAndLeafs(double[] data) {
+        HashMap<Integer, List<Integer>> result = new HashMap<>();
 
         for(int i = 0; i < data.length; i++) {
             int actualStem = (int)data[i];
-            if(stems.contains(actualStem)) {
-                
+            double leaf = Precision.round(data[i], 1);
+            leaf = (leaf - actualStem) * 10;
+            leaf = Precision.round(leaf, 0, BigDecimal.ROUND_HALF_DOWN);
+
+            if(!result.containsKey(actualStem)) {
+                List<Integer> leafs = new ArrayList<>();
+                leafs.add((int)leaf);
+                result.put(actualStem, leafs);
             }
-            double leaf = data[i] - actualStem;
+            else {
+                result.get(actualStem).add((int)leaf);
+            }
         }
 
         return result;
