@@ -1,11 +1,15 @@
 package com.statiticsapp.Activitys;
 
+import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -32,10 +36,13 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.opencsv.CSVReader;
 import com.statiticsapp.Adapters.CalculateExpandableListAdapter;
+import com.statiticsapp.CustomViews.GenericDialog;
+import com.statiticsapp.Interfaces.GenericDialogListener;
 import com.statiticsapp.Model.Stem;
 import com.statiticsapp.R;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.random.RandomDataGenerator;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.util.Precision;
 import org.w3c.dom.Text;
@@ -49,19 +56,21 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class MainActivity extends AppCompatActivity {
 
     TabHost mainTabHost;
     PDFView pdfView;
-    //GraphView graphView;
     BarChart graphView;
     TextView stemTxt;
     TextView leafTxt;
@@ -89,10 +98,13 @@ public class MainActivity extends AppCompatActivity {
 
     private static int OPEN_CSV_FILE = 3;
 
+    private Activity ma;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ma = this;
 
         centralTendencyValues = new ArrayList<>();
         positionValues = new ArrayList<>();
@@ -100,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
         formValues = new ArrayList<>();
 
         pdfView = (PDFView) findViewById(R.id.tab_theory_pdf_view);
-        //graphView = (GraphView) findViewById(R.id.tab_graphs_graph_view);
         graphView = (BarChart) findViewById(R.id.tab_graphs_graph_view);
         stemTxt = (TextView) findViewById(R.id.tab_graphs_stem);
         leafTxt = (TextView) findViewById(R.id.tab_graphs_leaf);
@@ -203,10 +214,31 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.menu_load_csv) {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("*/*");
-            startActivityForResult(intent, OPEN_CSV_FILE);
+        switch (id) {
+            case R.id.menu_load_csv:
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("*/*");
+                startActivityForResult(intent, OPEN_CSV_FILE);
+            break;
+            case R.id.menu_random_sample:
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Bundle args = new Bundle();
+                args.putSerializable("message", getString(R.string.dialog_message));
+                args.putSerializable("buttonOk", getString(R.string.generate));
+                args.putSerializable("buttonCancel", getString(R.string.cancel));
+                args.putSerializable("title", getString(R.string.dialog_title));
+                final GenericDialog dialog = new GenericDialog();
+                dialog.setArguments(args);
+                dialog.setCallback(new GenericDialogListener() {
+                    @Override
+                    public void onOkPressed(int sampleSize, double median, double stdDeviation) {
+                        DescriptiveStatistics stats = generateRandomSample(median, stdDeviation, sampleSize);
+                        calculateAndShow(stats);
+                        showGraphics(stats);
+                    }
+                });
+                dialog.show(ft, "RandomSample");
+            break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -246,6 +278,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    DescriptiveStatistics generateRandomSample(double mean, double standardDeviation, int sampleSize) {
+        DescriptiveStatistics stats = new DescriptiveStatistics();
+        RandomDataGenerator rdg = new RandomDataGenerator();
+
+        for(int i = 0; i < sampleSize; i++) {
+            double number = rdg.nextGaussian(mean, standardDeviation);
+            stats.addValue(number);
+        }
+
+        return stats;
+    }
+
     void showGraphics(DescriptiveStatistics stats) {
         // Data for Histogram and Steam And Leaf diagrams
         double[] data = stats.getValues();
@@ -275,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
         graphView.animateXY(2000, 2000);
 
         // Stem and leaf diagram
-        HashMap<Integer, List<Integer>> steamAndLeafData = calculateStemsAndLeafs(data);
+        SortedMap<Integer, List<Integer>> steamAndLeafData = calculateStemsAndLeafs(data);
         Iterator mapIterator = steamAndLeafData.entrySet().iterator();
         String stemsString = "Tallo\n\n";
         String leafsString = "Hoja\n\n";
@@ -284,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
             Map.Entry entry = (Map.Entry) mapIterator.next();
             stemsString += entry.getKey() + "\n";
             List<Integer> leafs = (List<Integer>) entry.getValue();
+            Collections.sort(leafs);
             for(int i = 0; i < leafs.size(); i++) {
                 leafsString += leafs.get(i).toString() + " ";
             }
@@ -310,14 +355,14 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
-    HashMap<Integer, List<Integer>> calculateStemsAndLeafs(double[] data) {
-        HashMap<Integer, List<Integer>> result = new HashMap<>();
+    SortedMap<Integer, List<Integer>> calculateStemsAndLeafs(double[] data) {
+        SortedMap<Integer, List<Integer>> result = new TreeMap<>();
 
         for(int i = 0; i < data.length; i++) {
             int actualStem = (int)data[i];
             double leaf = Precision.round(data[i], 1);
             leaf = (leaf - actualStem) * 10;
-            leaf = Precision.round(leaf, 0, BigDecimal.ROUND_HALF_DOWN);
+            leaf = Math.abs(Precision.round(leaf, 0, BigDecimal.ROUND_HALF_DOWN));
 
             if(!result.containsKey(actualStem)) {
                 List<Integer> leafs = new ArrayList<>();

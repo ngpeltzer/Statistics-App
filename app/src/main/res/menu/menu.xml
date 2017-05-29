@@ -5,4 +5,7 @@
     <item
         android:id="@+id/menu_load_csv"
         android:title="@string/menu_load" />
+    <item
+        android:id="@+id/menu_random_sample"
+        android:title="@string/menu_random_sample" />
 </menu>

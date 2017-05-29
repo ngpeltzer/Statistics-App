@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,7 +24,6 @@ import com.statiticsapp.R;
  * Created by ngpeltzer on 6/16/16.
  */
 public class GenericDialog extends DialogFragment  {
-
 
     Activity activity;
     String message;
@@ -52,7 +52,7 @@ public class GenericDialog extends DialogFragment  {
 
         RelativeLayout root = new RelativeLayout(getActivity());
         root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        final Dialog dialog = new Dialog(getActivity());
+        Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(root);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
@@ -63,23 +63,27 @@ public class GenericDialog extends DialogFragment  {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.dialog_generic, container, false);
-        final GenericDialog me = this;
+        final View root = inflater.inflate(R.layout.dialog_generic, container, false);
 
         TextView messageTV = (TextView) root.findViewById(R.id.generic_dialog_message);
         messageTV.setText(message);
-
-        Typeface tfb = Typeface.createFromAsset(activity.getAssets(),"fonts/Lato-Bold.ttf");
 
         Button ok = (Button) root.findViewById(R.id.generic_dialog_button_ok);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(callback!=null) callback.onOkPressed();
+                EditText sampleSizeTxt = (EditText) root.findViewById(R.id.dialog_sample_size);
+                EditText medianTxt = (EditText) root.findViewById(R.id.dialog_median);
+                EditText stdDeviationTxt = (EditText) root.findViewById(R.id.dialog_std_deviation);
+
+                int sampleSize = Integer.parseInt(sampleSizeTxt.getText().toString());
+                double median = Double.parseDouble(medianTxt.getText().toString());
+                double stdDeviation = Double.parseDouble(stdDeviationTxt.getText().toString());
+
+                if(callback != null) callback.onOkPressed(sampleSize, median, stdDeviation);
                 dismiss();
             }
         });
-        ok.setTypeface(tfb);
 
         if(buttonOk != null) ok.setText(buttonOk);
 

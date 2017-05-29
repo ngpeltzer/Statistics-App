@@ -4,8 +4,14 @@
     <string name="tab_grafica">Gráfica</string>
     <string name="tab_teoria">Teoría</string>
     <string name="menu_load">Cargar datos muestra</string>
+    <string name="menu_random_sample">Generar muestra aleatoria</string>
     <string name="cancel">Cancelar</string>
     <string name="generate">Generar</string>
     <string name="histogram">Histograma</string>
     <string name="stem_and_leaf">Diagrama de Tallo y Hoja</string>
+    <string name="dialog_message">Datos requeridos para distribución Gausseana o Normal</string>
+    <string name="dialog_title">Generar muestra aleatoria</string>
+    <string name="mean">Media</string>
+    <string name="std_deviation">Desviación Estándar</string>
+    <string name="sample_size">Tamaño de la muestra</string>
 </resources>
