@@ -28,12 +28,6 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.common.math.DoubleMath;
 import com.google.common.primitives.Doubles;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.LegendRenderer;
-import com.jjoe64.graphview.helper.StaticLabelsFormatter;
-import com.jjoe64.graphview.series.BarGraphSeries;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.DataPointInterface;
 import com.opencsv.CSVReader;
 import com.statiticsapp.Adapters.CalculateExpandableListAdapter;
 import com.statiticsapp.CustomViews.GenericDialog;
@@ -310,11 +304,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         BarDataSet dataSet = new BarDataSet(entries, "");
+        dataSet.setBarBorderColor(R.color.colorAccent);
+        dataSet.setBarBorderWidth(1f);
+        dataSet.setDrawValues(false);
         BarData graphicData = new BarData(dataSet);
+        graphicData.setBarWidth(1f);
         graphView.setData(graphicData);
         graphView.setDoubleTapToZoomEnabled(true);
-        graphView.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         graphView.getDescription().setText("");
+        graphView.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         graphView.getXAxis().setValueFormatter(new IndexAxisValueFormatter(entriesLabels));
         graphView.animateXY(2000, 2000);
 
@@ -406,6 +404,7 @@ public class MainActivity extends AppCompatActivity {
         double median = stats.getPercentile(50);
         double mode = 0;
 
+        centralTendencyValues.clear();
         centralTendencyValues.add(String.format(Locale.getDefault(), "%.2f", arithmeticMedia));
         centralTendencyValues.add(String.format(Locale.getDefault(), "%.2f", geometricaMedia));
         centralTendencyValues.add(String.format(Locale.getDefault(), "%.2f", armonicMedia));
@@ -427,6 +426,7 @@ public class MainActivity extends AppCompatActivity {
         double d8 = stats.getPercentile(80);
         double d9 = stats.getPercentile(90);
 
+        positionValues.clear();
         positionValues.add(String.format(Locale.getDefault(), "%.2f", q1));
         positionValues.add(String.format(Locale.getDefault(), "%.2f", q2));
         positionValues.add(String.format(Locale.getDefault(), "%.2f", q3));
@@ -449,6 +449,7 @@ public class MainActivity extends AppCompatActivity {
         double standardDeviation = stats.getStandardDeviation();
         double coefficientOfVariation = 0;
 
+        dispertionValues.clear();
         dispertionValues.add(String.format(Locale.getDefault(), "%.2f", range));
         dispertionValues.add(String.format(Locale.getDefault(), "%.2f", averageDeviation));
         dispertionValues.add(String.format(Locale.getDefault(), "%.2f", variance));
@@ -459,6 +460,7 @@ public class MainActivity extends AppCompatActivity {
         double skewness = stats.getSkewness();
         double kurtosis = stats.getKurtosis();
 
+        formValues.clear();
         formValues.add(String.format(Locale.getDefault(), "%.2f", skewness));
         formValues.add(String.format(Locale.getDefault(), "%.2f", kurtosis));
 
