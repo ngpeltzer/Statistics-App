@@ -5,4 +5,57 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:padding="@dimen/default_padding"
+                android:text="@string/histogram" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/tab_graphs_graph_view"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_margin="@dimen/graph_view_margin" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_padding"
+                android:layout_margin="@dimen/default_margin"
+                android:text="@string/stem_and_leaf" />
+
+            <LinearLayout
+                android:id="@+id/tab_graphs_stem_leaf_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:orientation="horizontal"
+                android:padding="@dimen/default_padding">
+
+                <TextView
+                    android:id="@+id/tab_graphs_stem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/tab_graphs_leaf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

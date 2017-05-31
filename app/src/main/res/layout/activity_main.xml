@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.statiticsapp.MainActivity">
+    tools:context="com.statiticsapp.Activitys.MainActivity">
 
     <TabHost
         android:id="@+id/activity_main_tab_host"
