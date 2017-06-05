@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.statiticsapp.Interfaces.GenericDialogListener;
 import com.statiticsapp.R;
@@ -76,9 +77,18 @@ public class GenericDialog extends DialogFragment  {
                 EditText medianTxt = (EditText) root.findViewById(R.id.dialog_median);
                 EditText stdDeviationTxt = (EditText) root.findViewById(R.id.dialog_std_deviation);
 
-                int sampleSize = Integer.parseInt(sampleSizeTxt.getText().toString());
-                double median = Double.parseDouble(medianTxt.getText().toString());
-                double stdDeviation = Double.parseDouble(stdDeviationTxt.getText().toString());
+                int sampleSize = 0;
+                double median = 0;
+                double stdDeviation = 0;
+
+                try {
+                    sampleSize = Integer.parseInt(sampleSizeTxt.getText().toString());
+                    median = Double.parseDouble(medianTxt.getText().toString());
+                    stdDeviation = Double.parseDouble(stdDeviationTxt.getText().toString());
+                } catch (Exception ex) {
+                    Toast.makeText(activity, "Se deben completar los 3 campos obligatoriamente", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if(callback != null) callback.onOkPressed(sampleSize, median, stdDeviation);
                 dismiss();

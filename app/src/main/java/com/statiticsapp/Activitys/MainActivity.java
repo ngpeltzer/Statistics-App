@@ -247,8 +247,10 @@ public class MainActivity extends AppCompatActivity {
                 showGraphics(stats);
             } catch (FileNotFoundException ex) {
                 Log.d("FileNotFoundExc", ex.getMessage());
+                Toast.makeText(ma, "Archivo no encontrado", Toast.LENGTH_SHORT).show();
             } catch (Exception ex) {
                 Log.d("Exception", ex.getMessage());
+                Toast.makeText(ma, "Debe ingresar un archivo solo con números separados por coma", Toast.LENGTH_SHORT).show();
             } finally {
 
             }
