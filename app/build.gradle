@@ -31,5 +31,6 @@ dependencies {
     compile 'com.google.guava:guava:22.0-android'
     compile 'com.github.barteksc:android-pdf-viewer:2.5.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }

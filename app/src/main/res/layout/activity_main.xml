@@ -1,49 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.statiticsapp.Activitys.MainActivity">
+    tools:context="com.statiticsapp.Activities.MainActivity">
 
-    <TabHost
-        android:id="@+id/activity_main_tab_host"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="495dp"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="40dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/descriptive"
+            android:text="Descriptiva"
+            android:layout_gravity="center"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/models"
+            android:text="Modelos de probabilidad"
+            android:layout_gravity="center"/>
 
+    </LinearLayout>
 
-                <FrameLayout
-                    android:id="@android:id/tabcontent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_below="@android:id/tabs">
-
-                    <include layout="@layout/tab_calculate" />
-
-                    <include layout="@layout/tab_graphs" />
-
-                    <include layout="@layout/tab_theory" />
-
-                </FrameLayout>
-
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="-4dp"
-                android:layout_weight="0"
-                android:layout_alignParentTop="true"/>
-
-
-        </RelativeLayout>
-    </TabHost>
-
-</LinearLayout>
+</RelativeLayout>

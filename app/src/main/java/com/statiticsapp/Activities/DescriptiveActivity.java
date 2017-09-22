@@ -1,4 +1,4 @@
-package com.statiticsapp.Activitys;
+package com.statiticsapp.Activities;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -46,7 +46,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class MainActivity extends AppCompatActivity {
+public class DescriptiveActivity extends AppCompatActivity {
 
     TabHost mainTabHost;
     PDFView pdfView;
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_descriptive);
         ma = this;
 
         centralTendencyValues = new ArrayList<>();
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         calculateExpandableListView = (ExpandableListView) findViewById(R.id.tab_calculate_expandable_list_view);
         calculateExpandableListView.setAdapter(cela);
 
-        pdfView.fromAsset("theory.pdf")
+        pdfView.fromAsset("descriptive.pdf")
                .enableSwipe(true)
                .swipeHorizontal(true)
                .enableDoubletap(true)
