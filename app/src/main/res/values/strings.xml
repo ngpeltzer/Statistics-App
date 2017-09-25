@@ -14,6 +14,20 @@
     <string name="mean">Media</string>
     <string name="std_deviation">Desviación Estándar</string>
     <string name="sample_size">Tamaño de la muestra</string>
+    <string name="value">Valor (x):</string>
+    <string name="calculate">Calcular</string>
+    <string name="accumulate">¿Acumula?</string>
+    <string name="select_distribution">Selecciona una distribución</string>
+    <string name="result">Resultado:</string>
     <string name="x_value_error">Debe ingresar un valor de x</string>
+    <string name="event_probability">Probabilidad del evento:</string>
+    <string name="success_probability">Probabilidad de éxito:</string>
+    <string name="expected_number_ocurrences">Nro. Esperado de Ocurrencias:</string>
+    <string name="population_size">Tamaño de la población:</string>
+    <string name="number_of_successes">Nro. de Positivos en Población:</string>
     <string name="sample_size_error">Debe ingresar un valor de muestra</string>
+    <string name="binomial">Binomial</string>
+    <string name="geometric">Geométrica</string>
+    <string name="poisson">Poisson</string>
+    <string name="hypergeometric">Hypergeométrica</string>
 </resources>

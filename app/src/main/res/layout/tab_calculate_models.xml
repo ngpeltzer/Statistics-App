@@ -28,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Selecciona una distribución" />
+                    android:text="@string/select_distribution" />
 
                 <Spinner
                     android:id="@+id/distributions_spinner"
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="¿Acumula?" />
+                    android:text="@string/accumulate" />
 
                 <Button
                     android:id="@+id/calculate"
@@ -59,7 +59,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:text="Calcular"
+                    android:text="@string/calculate"
                     android:textAllCaps="true" />
             </LinearLayout>
         </LinearLayout>
@@ -74,7 +74,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Binomial"
+                android:text="@string/binomial"
                 android:textAllCaps="true"
                 android:textStyle="bold" />
 
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Tamaño muestra:" />
+                    android:text="@string/sample_size" />
 
 
                 <EditText
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Probabilidad del evento:" />
+                    android:text="@string/event_probability" />
 
                 <EditText
                     android:gravity="center"
@@ -137,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Valor (x):" />
+                    android:text="@string/value" />
 
                 <EditText
                     android:gravity="center"
@@ -162,7 +162,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Geométrico"
+                android:text="@string/geometric"
                 android:textAllCaps="true"
                 android:textStyle="bold" />
 
@@ -177,7 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Probabilidad de éxito:" />
+                    android:text="@string/success_probability" />
 
                 <EditText
                     android:gravity="center"
@@ -201,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Valor (x):" />
+                    android:text="@string/value" />
 
                 <EditText
                     android:gravity="center"
@@ -226,7 +226,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Poisson"
+                android:text="@string/poisson"
                 android:textAllCaps="true"
                 android:textStyle="bold" />
 
@@ -241,7 +241,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Nro. Esperado de Ocurrencias:" />
+                    android:text="@string/expected_number_ocurrences" />
 
                 <EditText
                     android:gravity="center"
@@ -265,7 +265,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Valor (x):" />
+                    android:text="@string/value" />
 
                 <EditText
                     android:gravity="center"
@@ -290,7 +290,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hypergeométrica"
+                android:text="@string/hypergeometric"
                 android:textAllCaps="true"
                 android:textStyle="bold" />
 
@@ -305,7 +305,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Tamaño de la población:" />
+                    android:text="@string/population_size" />
 
 
                 <EditText
@@ -329,7 +329,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Nro. de Positivos en Población:" />
+                    android:text="@string/number_of_successes" />
 
                 <EditText
                     android:gravity="center"
@@ -353,7 +353,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Tamaño muestra:" />
+                    android:text="@string/sample_size" />
 
                 <EditText
                     android:gravity="center"
@@ -377,7 +377,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Valor (x):" />
+                    android:text="@string/value" />
 
                 <EditText
                     android:gravity="center"
@@ -398,7 +398,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:orientation="horizontal"
-            android:visibility="gone"
+            android:visibility="visible"
             android:weightSum="2">
 
             <TextView
@@ -406,7 +406,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:text="Resultado:" />
+                android:textSize="@dimen/result_text_size"
+                android:text="@string/result" />
 
             <TextView
                 android:id="@+id/result"
@@ -414,6 +415,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_weight="1"
+                android:textSize="@dimen/result_text_size"
                 android:gravity="end" />
 
         </LinearLayout>
