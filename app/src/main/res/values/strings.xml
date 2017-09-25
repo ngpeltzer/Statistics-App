@@ -14,4 +14,6 @@
     <string name="mean">Media</string>
     <string name="std_deviation">Desviación Estándar</string>
     <string name="sample_size">Tamaño de la muestra</string>
+    <string name="x_value_error">Debe ingresar un valor de x</string>
+    <string name="sample_size_error">Debe ingresar un valor de muestra</string>
 </resources>

@@ -113,11 +113,7 @@ public class ModelsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_models);
         ma = this;
 
-
-
         pdfView = (PDFView) findViewById(R.id.tab_theory_pdf_view);
-        //graphView = (BarChart) findViewById(R.id.tab_graphs_graph_view);
-
 
         // Main Tab Host
         mainTabHost = (TabHost) findViewById(R.id.activity_main_tab_host);
@@ -184,7 +180,7 @@ public class ModelsActivity extends AppCompatActivity {
                         if(accumulates) binomialResult = binomialDistribution.cumulativeProbability(binomialX);
                         else binomialResult = binomialDistribution.probability(binomialX);
 
-                        showResult(String.valueOf(binomialResult));
+                        showResult(String.format("%.2f", binomialResult));
                         break;
                     case GEOMETRIC_DISTRIBUTION:
                         double successProbability = Double.parseDouble(successProbabilityEt.getText().toString());
@@ -195,7 +191,7 @@ public class ModelsActivity extends AppCompatActivity {
                         if(accumulates) geometricResult = geometricDistribution.cumulativeProbability(geometricX);
                         else geometricResult = geometricDistribution.probability(geometricX);
 
-                        showResult(String.valueOf(geometricResult));
+                        showResult(String.format("%.2f", geometricResult));
                         break;
                     case POISSON_DISTRIBUTION:
                         double expectedNumberOfOcurrences = Double.parseDouble(expectedNumberOfOcurrencesEt.getText().toString());
@@ -206,7 +202,7 @@ public class ModelsActivity extends AppCompatActivity {
                         if(accumulates) poissonResult = poissonDistribution.cumulativeProbability(poissonX);
                         else poissonResult = poissonDistribution.probability(poissonX);
 
-                        showResult(String.valueOf(poissonResult));
+                        showResult(String.format("%.2f", poissonResult));
                         break;
                     case HYPERGEOMETRIC_DISTRIBUTION:
                         int populationSize = Integer.parseInt(populationSizeEt.getText().toString());
@@ -219,7 +215,7 @@ public class ModelsActivity extends AppCompatActivity {
                         if(accumulates) hypergeometricResult = hypergeometricDistribution.cumulativeProbability(hypergeometricX);
                         else hypergeometricResult = hypergeometricDistribution.probability(hypergeometricX);
 
-                        showResult(String.valueOf(hypergeometricResult));
+                        showResult(String.format("%.2f", hypergeometricResult));
                         break;
                 }
             }
@@ -295,67 +291,67 @@ public class ModelsActivity extends AppCompatActivity {
             case BINOMIAL_DISTRIBUTION:
                 if (binomialSampleSizeEt.getText().toString().length() == 0) {
                     result = false;
-                    Toast.makeText(this, "Debe ingresar un valor de muestra válido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, this.getResources().getString(R.string.sample_size_error), Toast.LENGTH_SHORT).show();
                 }
                 if (eventProbabilityEt.getText().toString().length() == 0) {
                     result = false;
-                    Toast.makeText(this, "Debe ingresar un valor para el evento de probabilidad válido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Debe ingresar un valor para el evento de probabilidad", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     double eventProbability = Double.parseDouble(eventProbabilityEt.getText().toString());
                     if(eventProbability < 0 || eventProbability > 1) {
                         result = false;
-                        Toast.makeText(this, "Debe ingresar un valor para el evento de probabilidad válido", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "El valor para el evento de probabilidad debe estar entre 0 y 1 inclusive", Toast.LENGTH_SHORT).show();
                     }
                 }
                 if (binomialValueEt.getText().toString().length() == 0) {
                     result = false;
-                    Toast.makeText(this, "Debe ingresar un valor de x válido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, this.getResources().getString(R.string.x_value_error), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case GEOMETRIC_DISTRIBUTION:
                 if (successProbabilityEt.getText().toString().length() == 0) {
                     result = false;
-                    Toast.makeText(this, "Debe ingresar un valor para la probabilidad de éxito válido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Debe ingresar un valor para la probabilidad de éxito", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     double successProbability = Double.parseDouble(successProbabilityEt.getText().toString());
                     if(successProbability < 0 || successProbability > 1) {
                         result = false;
-                        Toast.makeText(this, "Debe ingresar un valor para la probabilidad de éxito válido", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "El valor para la probabilidad de éxito debe estar entre 0 y 1 inclusive", Toast.LENGTH_SHORT).show();
                     }
                 }
                 if (geometricValueEt.getText().toString().length() == 0) {
                     result = false;
-                    Toast.makeText(this, "Debe ingresar un valor de x válido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, this.getResources().getString(R.string.x_value_error), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case POISSON_DISTRIBUTION:
                 if (expectedNumberOfOcurrencesEt.getText().toString().length() == 0) {
                     result = false;
-                    Toast.makeText(this, "Debe ingresar un valor válido para el nro. esperado de ocurrencias", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Debe ingresar un valor para el nro. esperado de ocurrencias", Toast.LENGTH_SHORT).show();
                 }
                 if (poissonValueEt.getText().toString().length() == 0) {
                     result = false;
-                    Toast.makeText(this, "Debe ingresar un valor de x válido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, this.getResources().getString(R.string.x_value_error), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case HYPERGEOMETRIC_DISTRIBUTION:
                 if (populationSizeEt.getText().toString().length() == 0) {
                     result = false;
-                    Toast.makeText(this, "Debe ingresar un valor de población válido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Debe ingresar un valor de población", Toast.LENGTH_SHORT).show();
                 }
                 if (positivesInPopulationEt.getText().toString().length() == 0) {
                     result = false;
-                    Toast.makeText(this, "Debe ingresar un valor válido para la cantidad de éxitos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Debe ingresar un valor para la cantidad de éxitos", Toast.LENGTH_SHORT).show();
                 }
                 if (hypergeometricSampleSizeEt.getText().toString().length() == 0) {
                     result = false;
-                    Toast.makeText(this, "Debe ingresar un valor de muestra válido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, this.getResources().getString(R.string.sample_size_error), Toast.LENGTH_SHORT).show();
                 }
                 if (hypergeometricValueEt.getText().toString().length() == 0) {
                     result = false;
-                    Toast.makeText(this, "Debe ingresar un valor de x válido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, this.getResources().getString(R.string.x_value_error), Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
