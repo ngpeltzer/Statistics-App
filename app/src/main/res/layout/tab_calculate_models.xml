@@ -93,6 +93,7 @@
 
 
                 <EditText
+                    android:gravity="center"
                     android:id="@+id/binomial_sample_size"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -115,6 +116,7 @@
                     android:text="Probabilidad del evento:" />
 
                 <EditText
+                    android:gravity="center"
                     android:id="@+id/binomial_event_probability"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -138,6 +140,7 @@
                     android:text="Valor (x):" />
 
                 <EditText
+                    android:gravity="center"
                     android:id="@+id/binomial_value"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -177,6 +180,7 @@
                     android:text="Probabilidad de éxito:" />
 
                 <EditText
+                    android:gravity="center"
                     android:id="@+id/geometric_success_probability"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -200,6 +204,7 @@
                     android:text="Valor (x):" />
 
                 <EditText
+                    android:gravity="center"
                     android:id="@+id/geometric_value"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -239,6 +244,7 @@
                     android:text="Nro. Esperado de Ocurrencias:" />
 
                 <EditText
+                    android:gravity="center"
                     android:id="@+id/poisson_expected_number_ocurrences"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -262,6 +268,7 @@
                     android:text="Valor (x):" />
 
                 <EditText
+                    android:gravity="center"
                     android:id="@+id/poisson_value"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -302,6 +309,7 @@
 
 
                 <EditText
+                    android:gravity="center"
                     android:id="@+id/hypergemoetric_population_size"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -324,6 +332,7 @@
                     android:text="Nro. de Positivos en Población:" />
 
                 <EditText
+                    android:gravity="center"
                     android:id="@+id/hypergemoetric_positives_in_population"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -347,6 +356,7 @@
                     android:text="Tamaño muestra:" />
 
                 <EditText
+                    android:gravity="center"
                     android:id="@+id/hypergemoetric_sample_size"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -370,6 +380,7 @@
                     android:text="Valor (x):" />
 
                 <EditText
+                    android:gravity="center"
                     android:id="@+id/hypergemoetric_value"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
