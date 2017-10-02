@@ -12,6 +12,7 @@
     <string name="dialog_message">Datos requeridos para distribución Gausseana o Normal</string>
     <string name="dialog_title">Generar muestra aleatoria</string>
     <string name="mean">Media</string>
+    <string name="mean_semicolons">Media:</string>
     <string name="std_deviation">Desviación Estándar</string>
     <string name="sample_size">Tamaño de la muestra</string>
     <string name="value">Valor (x):</string>
@@ -30,4 +31,5 @@
     <string name="geometric">Geométrica</string>
     <string name="poisson">Poisson</string>
     <string name="hypergeometric">Hypergeométrica</string>
+    <string name="exponential">Exponencial</string>
 </resources>
