@@ -14,6 +14,7 @@
     <string name="mean">Media</string>
     <string name="mean_semicolons">Media:</string>
     <string name="std_deviation">Desviación Estándar</string>
+    <string name="std_deviation_semicolons">Desviación Estándar:</string>
     <string name="sample_size">Tamaño de la muestra</string>
     <string name="value">Valor (x):</string>
     <string name="calculate">Calcular</string>
@@ -21,15 +22,26 @@
     <string name="select_distribution">Selecciona una distribución</string>
     <string name="result">Resultado:</string>
     <string name="x_value_error">Debe ingresar un valor de x</string>
+    <string name="beta_empty_error">Debe ingresar un valor para Beta.</string>
+    <string name="beta_invalid">Beta debe ser positivo.</string>
     <string name="event_probability">Probabilidad del evento:</string>
     <string name="success_probability">Probabilidad de éxito:</string>
     <string name="expected_number_ocurrences">Nro. Esperado de Ocurrencias:</string>
     <string name="population_size">Tamaño de la población:</string>
     <string name="number_of_successes">Nro. de Positivos en Población:</string>
     <string name="sample_size_error">Debe ingresar un valor de muestra</string>
+    <string name="shape">Forma:</string>
+    <string name="scale">Escala:</string>
+    <string name="mu">Ubicación (mu):</string>
+    <string name="beta">Escala (beta):</string>
+    <string name="alpha">Forma (alpha):</string>
     <string name="binomial">Binomial</string>
     <string name="geometric">Geométrica</string>
     <string name="poisson">Poisson</string>
     <string name="hypergeometric">Hypergeométrica</string>
     <string name="exponential">Exponencial</string>
+    <string name="gamma">Gamma</string>
+    <string name="normal">Normal</string>
+    <string name="gumbel">Gumbel</string>
+    <string name="weibull">Weibull</string>
 </resources>

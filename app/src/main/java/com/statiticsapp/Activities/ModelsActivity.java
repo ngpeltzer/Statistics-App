@@ -23,9 +23,16 @@ import com.statiticsapp.R;
 
 import org.apache.commons.math3.distribution.BinomialDistribution;
 import org.apache.commons.math3.distribution.ExponentialDistribution;
+import org.apache.commons.math3.distribution.GammaDistribution;
 import org.apache.commons.math3.distribution.GeometricDistribution;
+import org.apache.commons.math3.distribution.GumbelDistribution;
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
+import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
+import org.apache.commons.math3.distribution.WeibullDistribution;
+import org.apache.commons.math3.geometry.euclidean.threed.Line;
+
+import java.util.Locale;
 
 import static android.view.View.GONE;
 
@@ -33,40 +40,53 @@ public class ModelsActivity extends AppCompatActivity {
 
     TabHost mainTabHost;
     PDFView pdfView;
-    BarChart graphView;
 
     LinearLayout binomialLayout;
     LinearLayout geometricLayout;
     LinearLayout poissonLayout;
     LinearLayout hypergeometricLayout;
     LinearLayout exponentialLayout;
+    LinearLayout gammaLayout;
+    LinearLayout normalLayout;
+    LinearLayout gumbelLayout;
+    LinearLayout weibullLayout;
     LinearLayout resultLayout;
 
     EditText binomialSampleSizeEt;
-    EditText eventProbabilityEt;
+    EditText binomialEventProbabilityEt;
     EditText binomialValueEt;
-    EditText successProbabilityEt;
+    EditText geometricSuccessProbabilityEt;
     EditText geometricValueEt;
-    EditText expectedNumberOfOcurrencesEt;
+    EditText poissonExpectedNumberOfOcurrencesEt;
     EditText poissonValueEt;
-    EditText populationSizeEt;
-    EditText positivesInPopulationEt;
+    EditText hypergeometricPopulationSizeEt;
+    EditText hypergeometricPositivesInPopulationEt;
     EditText hypergeometricSampleSizeEt;
     EditText hypergeometricValueEt;
     EditText exponentialMeanEt;
     EditText exponentialValueEt;
+    EditText gammaShapeEt;
+    EditText gammaScaleEt;
+    EditText gammaValueEt;
+    EditText normalMeanEt;
+    EditText normalStdDeviationEt;
+    EditText normalValueEt;
+    EditText gumbelMuEt;
+    EditText gumbelBetaEt;
+    EditText gumbelValueEt;
+    EditText weibullAlphaEt;
+    EditText weibullBetaEt;
+    EditText weibullValueEt;
 
     TextView resultTxt;
     Spinner distributionsSpinner;
     Button calculateButton;
 
-    private static String CALCULATE = "tab1";
-    private static String GRAPHICS = "tab2";
-    private static String THEORY = "tab3";
+    private static final String CALCULATE = "tab1";
+    private static final String GRAPHICS = "tab2";
+    private static final String THEORY = "tab3";
 
-    private static int CALCULATE_TAB = 0;
-    private static int GRAPHICS_TAB = 1;
-    private static int THEORY_TAB = 2;
+    private static final int CALCULATE_TAB = 0;
 
     private static final int BINOMIAL_DISTRIBUTION = 0;
     private static final int GEOMETRIC_DISTRIBUTION = 1;
@@ -152,7 +172,7 @@ public class ModelsActivity extends AppCompatActivity {
                 switch (selectedDistribution) {
                     case BINOMIAL_DISTRIBUTION:
                         int binomialSampleSize = Integer.parseInt(binomialSampleSizeEt.getText().toString());
-                        double eventProbability = Double.parseDouble(eventProbabilityEt.getText().toString());
+                        double eventProbability = Double.parseDouble(binomialEventProbabilityEt.getText().toString());
                         int binomialX = Integer.parseInt(binomialValueEt.getText().toString());
 
                         BinomialDistribution binomialDistribution = new BinomialDistribution(binomialSampleSize, eventProbability);
@@ -160,10 +180,10 @@ public class ModelsActivity extends AppCompatActivity {
                         if(accumulates) binomialResult = binomialDistribution.cumulativeProbability(binomialX);
                         else binomialResult = binomialDistribution.probability(binomialX);
 
-                        showResult(String.format("%.2f", binomialResult));
+                        showResult(binomialResult);
                         break;
                     case GEOMETRIC_DISTRIBUTION:
-                        double successProbability = Double.parseDouble(successProbabilityEt.getText().toString());
+                        double successProbability = Double.parseDouble(geometricSuccessProbabilityEt.getText().toString());
                         int geometricX = Integer.parseInt(geometricValueEt.getText().toString());
 
                         GeometricDistribution geometricDistribution = new GeometricDistribution(successProbability);
@@ -171,10 +191,10 @@ public class ModelsActivity extends AppCompatActivity {
                         if(accumulates) geometricResult = geometricDistribution.cumulativeProbability(geometricX);
                         else geometricResult = geometricDistribution.probability(geometricX);
 
-                        showResult(String.format("%.2f", geometricResult));
+                        showResult(geometricResult);
                         break;
                     case POISSON_DISTRIBUTION:
-                        double expectedNumberOfOcurrences = Double.parseDouble(expectedNumberOfOcurrencesEt.getText().toString());
+                        double expectedNumberOfOcurrences = Double.parseDouble(poissonExpectedNumberOfOcurrencesEt.getText().toString());
                         int poissonX = Integer.parseInt(poissonValueEt.getText().toString());
 
                         PoissonDistribution poissonDistribution = new PoissonDistribution(expectedNumberOfOcurrences);
@@ -182,11 +202,11 @@ public class ModelsActivity extends AppCompatActivity {
                         if(accumulates) poissonResult = poissonDistribution.cumulativeProbability(poissonX);
                         else poissonResult = poissonDistribution.probability(poissonX);
 
-                        showResult(String.format("%.2f", poissonResult));
+                        showResult(poissonResult);
                         break;
                     case HYPERGEOMETRIC_DISTRIBUTION:
-                        int populationSize = Integer.parseInt(populationSizeEt.getText().toString());
-                        int positivesInPopulation = Integer.parseInt(positivesInPopulationEt.getText().toString());
+                        int populationSize = Integer.parseInt(hypergeometricPopulationSizeEt.getText().toString());
+                        int positivesInPopulation = Integer.parseInt(hypergeometricPositivesInPopulationEt.getText().toString());
                         int hypergeometricSampleSize = Integer.parseInt(hypergeometricSampleSizeEt.getText().toString());
                         int hypergeometricX = Integer.parseInt(hypergeometricValueEt.getText().toString());
 
@@ -195,7 +215,7 @@ public class ModelsActivity extends AppCompatActivity {
                         if(accumulates) hypergeometricResult = hypergeometricDistribution.cumulativeProbability(hypergeometricX);
                         else hypergeometricResult = hypergeometricDistribution.probability(hypergeometricX);
 
-                        showResult(String.format("%.2f", hypergeometricResult));
+                        showResult(hypergeometricResult);
                         break;
                     case EXPONENTIAL_DISTRIBUTION:
                         double mean = Double.parseDouble(exponentialMeanEt.getText().toString());
@@ -206,42 +226,76 @@ public class ModelsActivity extends AppCompatActivity {
                         if(accumulates) exponentialResult = exponentialDistribution.cumulativeProbability(exponentialX);
                         else exponentialResult = exponentialDistribution.probability(exponentialX);
 
-                        showResult(String.format("%.2f", exponentialResult));
+                        showResult(exponentialResult);
                         break;
                     case GAMMA_DISTRIBUTION:
+                        double shape = Double.parseDouble(gammaShapeEt.getText().toString());
+                        double scale = Double.parseDouble(gammaScaleEt.getText().toString());
+                        double gammaX = Double.parseDouble(gammaValueEt.getText().toString());
 
+                        GammaDistribution gammaDistribution = new GammaDistribution(shape, scale);
+                        double gammaResult = 0;
+                        if(accumulates) gammaResult = gammaDistribution.cumulativeProbability(gammaX);
+                        else gammaResult = gammaDistribution.probability(gammaX);
+
+                        showResult(gammaResult);
                         break;
                     case NORMAL_DISTRIBUTION:
+                        double normalMean = Double.parseDouble(normalMeanEt.getText().toString());
+                        double normalStdDeviation = Double.parseDouble(normalStdDeviationEt.getText().toString());
+                        double normalX = Double.parseDouble(normalValueEt.getText().toString());
 
+                        NormalDistribution normalDistribution = new NormalDistribution(normalMean, normalStdDeviation);
+                        double normalResult = 0;
+                        if(accumulates) normalResult = normalDistribution.cumulativeProbability(normalX);
+                        else normalResult = normalDistribution.probability(normalX);
+
+                        showResult(normalResult);
                         break;
                     case GUMBEL_DISTRIBUTION:
+                        double mu = Double.parseDouble(gumbelMuEt.getText().toString());
+                        double gumbelBeta = Double.parseDouble(gumbelBetaEt.getText().toString());
+                        double gumbelX = Double.parseDouble(gumbelValueEt.getText().toString());
 
+                        GumbelDistribution gumbelDistribution = new GumbelDistribution(mu, gumbelBeta);
+                        double gumbelResult = 0;
+                        if(accumulates) gumbelResult = gumbelDistribution.cumulativeProbability(gumbelX);
+                        else gumbelResult = gumbelDistribution.probability(gumbelX);
+
+                        showResult(gumbelResult);
                         break;
                     case WEIBULL_DISTRIBUTION:
+                        double weibullAlpha = Double.parseDouble(weibullAlphaEt.getText().toString());
+                        double weibullBeta = Double.parseDouble(weibullBetaEt.getText().toString());
+                        double weibullX = Double.parseDouble(weibullValueEt.getText().toString());
 
+                        WeibullDistribution weibullDistribution = new WeibullDistribution(weibullAlpha, weibullBeta);
+                        double weibullResult = 0;
+                        if(accumulates) weibullResult = weibullDistribution.cumulativeProbability(weibullX);
+                        else weibullResult = weibullDistribution.probability(weibullX);
+
+                        showResult(weibullResult);
                         break;
                 }
             }
         });
 
-        resultTxt = (TextView) findViewById(R.id.result);
-
         binomialLayout = (LinearLayout) findViewById(R.id.binomial_layout);
         binomialSampleSizeEt = (EditText) findViewById(R.id.binomial_sample_size);
-        eventProbabilityEt = (EditText) findViewById(R.id.binomial_event_probability);
+        binomialEventProbabilityEt = (EditText) findViewById(R.id.binomial_event_probability);
         binomialValueEt = (EditText) findViewById(R.id.binomial_value);
 
         geometricLayout = (LinearLayout) findViewById(R.id.geometric_layout);
-        successProbabilityEt = (EditText) findViewById(R.id.geometric_success_probability);
+        geometricSuccessProbabilityEt = (EditText) findViewById(R.id.geometric_success_probability);
         geometricValueEt = (EditText) findViewById(R.id.geometric_value);
 
         poissonLayout = (LinearLayout) findViewById(R.id.poisson_layout);
-        expectedNumberOfOcurrencesEt = (EditText) findViewById(R.id.poisson_expected_number_ocurrences);
+        poissonExpectedNumberOfOcurrencesEt = (EditText) findViewById(R.id.poisson_expected_number_ocurrences);
         poissonValueEt = (EditText) findViewById(R.id.poisson_value);
 
         hypergeometricLayout = (LinearLayout) findViewById(R.id.hypergemoetric_layout);
-        populationSizeEt = (EditText) findViewById(R.id.hypergemoetric_population_size);
-        positivesInPopulationEt = (EditText) findViewById(R.id.hypergemoetric_positives_in_population);
+        hypergeometricPopulationSizeEt = (EditText) findViewById(R.id.hypergemoetric_population_size);
+        hypergeometricPositivesInPopulationEt = (EditText) findViewById(R.id.hypergemoetric_positives_in_population);
         hypergeometricSampleSizeEt = (EditText) findViewById(R.id.hypergemoetric_sample_size);
         hypergeometricValueEt = (EditText) findViewById(R.id.hypergemoetric_value);
 
@@ -249,7 +303,28 @@ public class ModelsActivity extends AppCompatActivity {
         exponentialMeanEt = (EditText) findViewById(R.id.exponential_mean);
         exponentialValueEt = (EditText) findViewById(R.id.exponential_value);
 
+        gammaLayout = (LinearLayout) findViewById(R.id.gamma_layout);
+        gammaShapeEt = (EditText) findViewById(R.id.gamma_shape);
+        gammaScaleEt = (EditText) findViewById(R.id.gamma_scale);
+        gammaValueEt = (EditText) findViewById(R.id.gamma_value);
+
+        normalLayout = (LinearLayout) findViewById(R.id.normal_layout);
+        normalMeanEt = (EditText) findViewById(R.id.normal_mean);
+        normalStdDeviationEt = (EditText) findViewById(R.id.normal_standard_deviation);
+        normalValueEt = (EditText) findViewById(R.id.normal_value);
+
+        gumbelLayout = (LinearLayout) findViewById(R.id.gumbel_layout);
+        gumbelMuEt = (EditText) findViewById(R.id.gumbel_mu);
+        gumbelBetaEt = (EditText) findViewById(R.id.gumbel_beta);
+        gumbelValueEt = (EditText) findViewById(R.id.gumbel_value);
+
+        weibullLayout = (LinearLayout) findViewById(R.id.weibull_layout);
+        weibullAlphaEt = (EditText) findViewById(R.id.weibull_alpha);
+        weibullBetaEt = (EditText) findViewById(R.id.weibull_beta);
+        weibullValueEt = (EditText) findViewById(R.id.weibull_value);
+
         resultLayout = (LinearLayout) findViewById(R.id.result_layout);
+        resultTxt = (TextView) findViewById(R.id.result);
 
         pdfView.fromAsset("models.pdf")
                .enableSwipe(true)
@@ -259,8 +334,8 @@ public class ModelsActivity extends AppCompatActivity {
                .load();
     }
 
-    private void showResult(String result) {
-        resultTxt.setText(result);
+    private void showResult(double result) {
+        resultTxt.setText(String.format(Locale.getDefault(), "%.2f", result));
         resultLayout.setVisibility(View.VISIBLE);
     }
 
@@ -284,16 +359,16 @@ public class ModelsActivity extends AppCompatActivity {
                 exponentialLayout.setVisibility(View.VISIBLE);
                 break;
             case GAMMA_DISTRIBUTION:
-
+                gammaLayout.setVisibility(View.VISIBLE);
                 break;
             case NORMAL_DISTRIBUTION:
-
+                normalLayout.setVisibility(View.VISIBLE);
                 break;
             case GUMBEL_DISTRIBUTION:
-
+                gumbelLayout.setVisibility(View.VISIBLE);
                 break;
             case WEIBULL_DISTRIBUTION:
-
+                weibullLayout.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -304,7 +379,15 @@ public class ModelsActivity extends AppCompatActivity {
         poissonLayout.setVisibility(GONE);
         hypergeometricLayout.setVisibility(GONE);
         exponentialLayout.setVisibility(GONE);
+        gammaLayout.setVisibility(GONE);
+        normalLayout.setVisibility(GONE);
+        gumbelLayout.setVisibility(GONE);
+        weibullLayout.setVisibility(GONE);
         resultLayout.setVisibility(GONE);
+    }
+
+    private boolean isNotPositive(double value) {
+        return value <= 0;
     }
 
     private boolean isInputEmpty(EditText editText) {
@@ -328,12 +411,12 @@ public class ModelsActivity extends AppCompatActivity {
                     result = false;
                     showToast(this.getResources().getString(R.string.sample_size_error));
                 }
-                if (isInputEmpty(eventProbabilityEt)) {
+                if (isInputEmpty(binomialEventProbabilityEt)) {
                     result = false;
                     showToast("Debe ingresar un valor para el evento de probabilidad");
                 }
                 else {
-                    double eventProbability = Double.parseDouble(eventProbabilityEt.getText().toString());
+                    double eventProbability = Double.parseDouble(binomialEventProbabilityEt.getText().toString());
                     if(isProbabilityInvalid(eventProbability)) {
                         result = false;
                         showToast("El valor para el evento de probabilidad debe estar entre 0 y 1 inclusive");
@@ -345,12 +428,12 @@ public class ModelsActivity extends AppCompatActivity {
                 }
                 break;
             case GEOMETRIC_DISTRIBUTION:
-                if (isInputEmpty(successProbabilityEt)) {
+                if (isInputEmpty(geometricSuccessProbabilityEt)) {
                     result = false;
                     showToast("Debe ingresar un valor para la probabilidad de éxito");
                 }
                 else {
-                    double successProbability = Double.parseDouble(successProbabilityEt.getText().toString());
+                    double successProbability = Double.parseDouble(geometricSuccessProbabilityEt.getText().toString());
                     if(isProbabilityInvalid(successProbability)) {
                         result = false;
                         showToast("El valor para la probabilidad de éxito debe estar entre 0 y 1 inclusive");
@@ -362,7 +445,7 @@ public class ModelsActivity extends AppCompatActivity {
                 }
                 break;
             case POISSON_DISTRIBUTION:
-                if (isInputEmpty(expectedNumberOfOcurrencesEt)) {
+                if (isInputEmpty(poissonExpectedNumberOfOcurrencesEt)) {
                     result = false;
                     showToast("Debe ingresar un valor para el nro. esperado de ocurrencias");
                 }
@@ -372,11 +455,11 @@ public class ModelsActivity extends AppCompatActivity {
                 }
                 break;
             case HYPERGEOMETRIC_DISTRIBUTION:
-                if (isInputEmpty(populationSizeEt)) {
+                if (isInputEmpty(hypergeometricPopulationSizeEt)) {
                     result = false;
                     showToast("Debe ingresar un valor de población");
                 }
-                if (isInputEmpty(positivesInPopulationEt)) {
+                if (isInputEmpty(hypergeometricPositivesInPopulationEt)) {
                     result = false;
                     showToast("Debe ingresar un valor para la cantidad de éxitos");
                 }
@@ -400,16 +483,81 @@ public class ModelsActivity extends AppCompatActivity {
                 }
                 break;
             case GAMMA_DISTRIBUTION:
-
+                if(isInputEmpty(gammaShapeEt)) {
+                    result = false;
+                    showToast("Debe ingresar un valor para la forma.");
+                }
+                if(isInputEmpty(gammaScaleEt)) {
+                    result = false;
+                    showToast("Debe ingresar un valor para la escala.");
+                }
+                if(isInputEmpty(gammaValueEt)) {
+                    result = false;
+                    showToast(getResources().getString(R.string.x_value_error));
+                }
                 break;
             case NORMAL_DISTRIBUTION:
-
+                if(isInputEmpty(normalMeanEt)) {
+                    result = false;
+                    showToast("Debe ingresar un valor para la media.");
+                }
+                if(isInputEmpty(normalStdDeviationEt)) {
+                    result = false;
+                    showToast("Debe ingresar una desviación estándar.");
+                }
+                if(isInputEmpty(normalValueEt)) {
+                    result = false;
+                    showToast(getResources().getString(R.string.x_value_error));
+                }
                 break;
             case GUMBEL_DISTRIBUTION:
-
+                if(isInputEmpty(gumbelMuEt)) {
+                    result = false;
+                    showToast("Debe ingresar un valor para Mu.");
+                }
+                if(isInputEmpty(gumbelBetaEt)) {
+                    result = false;
+                    showToast(getResources().getString(R.string.beta_empty_error));
+                }
+                else {
+                    double beta = Double.parseDouble(gumbelBetaEt.getText().toString());
+                    if(isNotPositive(beta)) {
+                        result = false;
+                        showToast(getResources().getString(R.string.beta_invalid));
+                    }
+                }
+                if(isInputEmpty(gumbelValueEt)) {
+                    result = false;
+                    showToast(getResources().getString(R.string.x_value_error));
+                }
                 break;
             case WEIBULL_DISTRIBUTION:
-
+                if(isInputEmpty(weibullAlphaEt)) {
+                    result = false;
+                    showToast("Debe ingresar un valor para Alpha.");
+                }
+                else {
+                    double alpha = Double.parseDouble(weibullAlphaEt.getText().toString());
+                    if(isNotPositive(alpha)) {
+                        result = false;
+                        showToast("Alpha debe ser positivo.");
+                    }
+                }
+                if(isInputEmpty(weibullBetaEt)) {
+                    result = false;
+                    showToast(getResources().getString(R.string.beta_empty_error));
+                }
+                else {
+                    double beta = Double.parseDouble(weibullBetaEt.getText().toString());
+                    if(isNotPositive(beta)) {
+                        result = false;
+                        showToast(getResources().getString(R.string.beta_invalid));
+                    }
+                }
+                if(isInputEmpty(weibullValueEt)) {
+                    result = false;
+                    showToast(getResources().getString(R.string.x_value_error));
+                }
                 break;
         }
 
