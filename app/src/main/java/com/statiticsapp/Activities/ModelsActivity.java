@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -81,6 +82,8 @@ public class ModelsActivity extends AppCompatActivity {
     TextView resultTxt;
     Spinner distributionsSpinner;
     Button calculateButton;
+    CheckBox cumulativeCb;
+    ScrollView scrollView;
 
     private static final String CALCULATE = "tab1";
     private static final String GRAPHICS = "tab2";
@@ -166,7 +169,6 @@ public class ModelsActivity extends AppCompatActivity {
 
                 if(!checkForInvalidInputs()) return;
 
-                CheckBox cumulativeCb = (CheckBox) findViewById(R.id.cumulative_checkbox);
                 boolean accumulates = cumulativeCb.isChecked();
 
                 switch (selectedDistribution) {
@@ -277,6 +279,8 @@ public class ModelsActivity extends AppCompatActivity {
                         showResult(weibullResult);
                         break;
                 }
+
+                scrollDown();
             }
         });
 
@@ -325,6 +329,8 @@ public class ModelsActivity extends AppCompatActivity {
 
         resultLayout = (LinearLayout) findViewById(R.id.result_layout);
         resultTxt = (TextView) findViewById(R.id.result);
+        cumulativeCb = (CheckBox) findViewById(R.id.cumulative_checkbox);
+        scrollView = (ScrollView) findViewById(R.id.tab1);
 
         pdfView.fromAsset("models.pdf")
                .enableSwipe(true)
@@ -339,35 +345,61 @@ public class ModelsActivity extends AppCompatActivity {
         resultLayout.setVisibility(View.VISIBLE);
     }
 
+    private void isContinuosDistribution(boolean value) {
+        if(value) {
+            cumulativeCb.setChecked(true);
+            cumulativeCb.setEnabled(false);
+        }
+        else cumulativeCb.setEnabled(true);
+    }
+
+    private void scrollDown() {
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+    }
+
     private void showSelectedDistribution() {
         hideAll();
 
         switch (selectedDistribution) {
             case BINOMIAL_DISTRIBUTION:
+                isContinuosDistribution(false);
                 binomialLayout.setVisibility(View.VISIBLE);
                 break;
             case GEOMETRIC_DISTRIBUTION:
+                isContinuosDistribution(false);
                 geometricLayout.setVisibility(View.VISIBLE);
                 break;
             case POISSON_DISTRIBUTION:
+                isContinuosDistribution(false);
                 poissonLayout.setVisibility(View.VISIBLE);
                 break;
             case HYPERGEOMETRIC_DISTRIBUTION:
+                isContinuosDistribution(false);
                 hypergeometricLayout.setVisibility(View.VISIBLE);
                 break;
             case EXPONENTIAL_DISTRIBUTION:
+                isContinuosDistribution(true);
                 exponentialLayout.setVisibility(View.VISIBLE);
                 break;
             case GAMMA_DISTRIBUTION:
+                isContinuosDistribution(true);
                 gammaLayout.setVisibility(View.VISIBLE);
                 break;
             case NORMAL_DISTRIBUTION:
+                isContinuosDistribution(true);
                 normalLayout.setVisibility(View.VISIBLE);
                 break;
             case GUMBEL_DISTRIBUTION:
+                isContinuosDistribution(true);
                 gumbelLayout.setVisibility(View.VISIBLE);
                 break;
             case WEIBULL_DISTRIBUTION:
+                isContinuosDistribution(true);
                 weibullLayout.setVisibility(View.VISIBLE);
                 break;
         }
@@ -466,6 +498,14 @@ public class ModelsActivity extends AppCompatActivity {
                 if (isInputEmpty(hypergeometricSampleSizeEt)) {
                     result = false;
                     showToast(this.getResources().getString(R.string.sample_size_error));
+                }
+                else {
+                    double sampleSize = Double.parseDouble(hypergeometricSampleSizeEt.getText().toString());
+                    double populationSize = Double.parseDouble(hypergeometricPopulationSizeEt.getText().toString());
+                    if(sampleSize > populationSize) {
+                        result = false;
+                        showToast("El tamaño de muestra no puede ser mayor que la población.");
+                    }
                 }
                 if (isInputEmpty(hypergeometricValueEt)) {
                     result = false;
