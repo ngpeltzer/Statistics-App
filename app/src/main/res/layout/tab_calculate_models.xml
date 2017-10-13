@@ -137,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/value" />
+                    android:text="@string/value_x" />
 
                 <EditText
                     android:gravity="center"
@@ -146,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -201,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/value" />
+                    android:text="@string/value_x" />
 
                 <EditText
                     android:gravity="center"
@@ -210,7 +210,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -265,7 +265,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/value" />
+                    android:text="@string/value_x" />
 
                 <EditText
                     android:gravity="center"
@@ -274,7 +274,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -314,7 +314,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -338,7 +338,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -362,7 +362,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -377,7 +377,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/value" />
+                    android:text="@string/value_x" />
 
                 <EditText
                     android:gravity="center"
@@ -386,7 +386,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -441,7 +441,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/value" />
+                    android:text="@string/value_x" />
 
                 <EditText
                     android:gravity="center"
@@ -450,7 +450,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -490,7 +490,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -514,7 +514,7 @@
                     android:layout_gravity="end"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -529,7 +529,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/value" />
+                    android:text="@string/value_x" />
 
                 <EditText
                     android:id="@+id/gamma_value"
@@ -538,7 +538,7 @@
                     android:layout_gravity="end"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -578,7 +578,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -602,7 +602,7 @@
                     android:layout_gravity="end"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -617,7 +617,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/value" />
+                    android:text="@string/value_x" />
 
                 <EditText
                     android:id="@+id/normal_value"
@@ -626,7 +626,7 @@
                     android:layout_gravity="end"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -666,7 +666,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -690,7 +690,7 @@
                     android:layout_gravity="end"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -705,7 +705,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/value" />
+                    android:text="@string/value_x" />
 
                 <EditText
                     android:id="@+id/gumbel_value"
@@ -714,7 +714,7 @@
                     android:layout_gravity="end"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -725,7 +725,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -754,7 +754,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -778,7 +778,7 @@
                     android:layout_gravity="end"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -793,7 +793,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/value" />
+                    android:text="@string/value_x" />
 
                 <EditText
                     android:id="@+id/weibull_value"
@@ -802,7 +802,47 @@
                     android:layout_gravity="end"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberDecimal" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/standard_normal_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/standard_normal"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/value_z" />
+
+                <EditText
+                    android:id="@+id/standard_normal_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
