@@ -15,7 +15,7 @@
     <string name="mean_semicolons">Media:</string>
     <string name="std_deviation">Desviación Estándar</string>
     <string name="std_deviation_semicolons">Desviación Estándar:</string>
-    <string name="sample_size">Tamaño de la muestra</string>
+    <string name="sample_size">Cantidad de pruebas</string>
     <string name="value">Valor (x):</string>
     <string name="calculate">Calcular</string>
     <string name="accumulate">¿Acumula?</string>
