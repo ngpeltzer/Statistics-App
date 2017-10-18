@@ -27,6 +27,7 @@ import com.statiticsapp.Adapters.CalculateExpandableListAdapter;
 import com.statiticsapp.CustomViews.GenericDialog;
 import com.statiticsapp.Interfaces.GenericDialogListener;
 import com.statiticsapp.R;
+import com.statiticsapp.Utils.Constants;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
@@ -45,6 +46,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 
 public class DescriptiveActivity extends AppCompatActivity {
 
@@ -72,18 +78,14 @@ public class DescriptiveActivity extends AppCompatActivity {
     private static int BIN_COUNT = 10;
 
     private static int CALCULATE_TAB = 0;
-    private static int GRAPHICS_TAB = 1;
-    private static int THEORY_TAB = 2;
 
-    private static int OPEN_CSV_FILE = 3;
-
-    private Activity ma;
+    //private static int OPEN_CSV_FILE = 3;
+    private static int OPEN_EXCEL_FILE = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_descriptive);
-        ma = this;
 
         centralTendencyValues = new ArrayList<>();
         positionValues = new ArrayList<>();
@@ -102,19 +104,19 @@ public class DescriptiveActivity extends AppCompatActivity {
         // Calculate Tab
         TabHost.TabSpec spec = mainTabHost.newTabSpec(CALCULATE);
         spec.setContent(R.id.tab1);
-        spec.setIndicator("Cálculos");
+        spec.setIndicator(getResources().getString(R.string.tab_calculate));
         mainTabHost.addTab(spec);
 
         // Graphics Tab
         spec = mainTabHost.newTabSpec(GRAPHICS);
         spec.setContent(R.id.tab2);
-        spec.setIndicator("Gráficos");
+        spec.setIndicator(getResources().getString(R.string.tab_graphics));
         mainTabHost.addTab(spec);
 
         // Theory Tab
         spec = mainTabHost.newTabSpec(THEORY);
         spec.setContent(R.id.tab3);
-        spec.setIndicator("Teoría");
+        spec.setIndicator(getResources().getString(R.string.tab_theory));
         mainTabHost.addTab(spec);
 
         mainTabHost.setCurrentTab(CALCULATE_TAB);
@@ -194,18 +196,18 @@ public class DescriptiveActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.menu_load_csv:
+            case R.id.menu_load_excel:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");
-                startActivityForResult(intent, OPEN_CSV_FILE);
+                startActivityForResult(intent, OPEN_EXCEL_FILE);
             break;
             case R.id.menu_random_sample:
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 Bundle args = new Bundle();
-                args.putSerializable("message", getString(R.string.dialog_message));
-                args.putSerializable("buttonOk", getString(R.string.generate));
-                args.putSerializable("buttonCancel", getString(R.string.cancel));
-                args.putSerializable("title", getString(R.string.dialog_title));
+                args.putSerializable(Constants.MESSAGE, getString(R.string.dialog_message));
+                args.putSerializable(Constants.BUTTON_OK, getString(R.string.generate));
+                args.putSerializable(Constants.BUTTON_CANCEL, getString(R.string.cancel));
+                args.putSerializable(Constants.TITLE, getString(R.string.dialog_title));
                 final GenericDialog dialog = new GenericDialog();
                 dialog.setArguments(args);
                 dialog.setCallback(new GenericDialogListener() {
@@ -226,9 +228,43 @@ public class DescriptiveActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK && requestCode == OPEN_CSV_FILE) {
+        if(resultCode == RESULT_OK && requestCode == OPEN_EXCEL_FILE) {
 
-            FileInputStream fis;
+            FileInputStream excelFile;
+
+            try {
+                excelFile = (FileInputStream) getContentResolver().openInputStream(data.getData());
+
+                Workbook workbook = Workbook.getWorkbook(excelFile);
+                Sheet sheet = workbook.getSheet(0);
+
+                ArrayList<Double> doubleValues = new ArrayList<>();
+
+                for (int i = 0; i < sheet.getRows(); i++) {
+                    Cell cell = sheet.getCell(0, i);
+                    String cellContent = cell.getContents();
+                    if (cellContent.contains(",")) cellContent = cellContent.replace(',', '.');
+                    doubleValues.add(Double.parseDouble(cellContent));
+                }
+
+                DescriptiveStatistics stats = new DescriptiveStatistics(Doubles.toArray(doubleValues));
+                calculateAndShow(stats);
+                showGraphics(stats);
+            } catch (FileNotFoundException ex) {
+                Log.d("FileNotFoundExc", ex.getMessage());
+                Toast.makeText(DescriptiveActivity.this, "Archivo no encontrado", Toast.LENGTH_SHORT).show();
+            } catch (BiffException ex) {
+                Log.d("BiffException", ex.getMessage());
+                Toast.makeText(DescriptiveActivity.this, "Seleccione un archivo .XLS válido", Toast.LENGTH_SHORT).show();
+            } catch (NumberFormatException ex) {
+                Log.d("NumberFormatExc", ex.getMessage());
+                Toast.makeText(DescriptiveActivity.this, "Los números no tienen el formato correcto", Toast.LENGTH_SHORT).show();
+            } catch (Exception ex) {
+                Log.d("Exception", ex.getMessage());
+                Toast.makeText(DescriptiveActivity.this, "Debe ingresar un archivo solo con números y solo en la primer columna", Toast.LENGTH_SHORT).show();
+            }
+
+            /*FileInputStream fis;
             CSVReader csvReader;
 
             try {
@@ -247,15 +283,14 @@ public class DescriptiveActivity extends AppCompatActivity {
                 showGraphics(stats);
             } catch (FileNotFoundException ex) {
                 Log.d("FileNotFoundExc", ex.getMessage());
-                Toast.makeText(ma, "Archivo no encontrado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DescriptiveActivity.this, "Archivo no encontrado", Toast.LENGTH_SHORT).show();
             } catch (Exception ex) {
                 Log.d("Exception", ex.getMessage());
-                Toast.makeText(ma, "Debe ingresar un archivo solo con números separados por coma", Toast.LENGTH_SHORT).show();
-            } finally {
-
-            }
+                Toast.makeText(DescriptiveActivity.this, "Debe ingresar un archivo solo con números separados por coma", Toast.LENGTH_SHORT).show();
+            }*/
         } else {
-            Toast.makeText(this, "Seleccione un archivo .CSV válido", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Seleccione un archivo .CSV válido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Seleccione un archivo .XLS válido", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -286,7 +321,7 @@ public class DescriptiveActivity extends AppCompatActivity {
         List<BarEntry> entries = new ArrayList<>();
         final List<String> entriesLabels = new ArrayList<>();
         for(int i = 0; i < bins.length; i++) {
-            entriesLabels.add(String.format("%.2f", bins[i]));
+            entriesLabels.add(formatOutput(bins[i]));
             entries.add(new BarEntry(i, (float)values[i]));
         }
 
@@ -381,6 +416,10 @@ public class DescriptiveActivity extends AppCompatActivity {
         return histogramData;
     }
 
+    String formatOutput(double value) {
+        return String.format(Locale.getDefault(), "%.2f", value);
+    }
+
     void calculateAndShow(DescriptiveStatistics stats) {
 
         // Centralization Measures
@@ -392,12 +431,12 @@ public class DescriptiveActivity extends AppCompatActivity {
         double mode = 0;
 
         centralTendencyValues.clear();
-        centralTendencyValues.add(String.format(Locale.getDefault(), "%.2f", arithmeticMedia));
-        centralTendencyValues.add(String.format(Locale.getDefault(), "%.2f", geometricaMedia));
-        centralTendencyValues.add(String.format(Locale.getDefault(), "%.2f", armonicMedia));
-        centralTendencyValues.add(String.format(Locale.getDefault(), "%.2f", cuadraticMedia));
-        centralTendencyValues.add(String.format(Locale.getDefault(), "%.2f", median));
-        centralTendencyValues.add(String.format(Locale.getDefault(), "%.2f", mode));
+        centralTendencyValues.add(formatOutput(arithmeticMedia));
+        centralTendencyValues.add(formatOutput(geometricaMedia));
+        centralTendencyValues.add(formatOutput(armonicMedia));
+        centralTendencyValues.add(formatOutput(cuadraticMedia));
+        centralTendencyValues.add(formatOutput(median));
+        centralTendencyValues.add(formatOutput(mode));
 
         // Position Measures
         double q1 = stats.getPercentile(25);
@@ -414,18 +453,18 @@ public class DescriptiveActivity extends AppCompatActivity {
         double d9 = stats.getPercentile(90);
 
         positionValues.clear();
-        positionValues.add(String.format(Locale.getDefault(), "%.2f", q1));
-        positionValues.add(String.format(Locale.getDefault(), "%.2f", q2));
-        positionValues.add(String.format(Locale.getDefault(), "%.2f", q3));
-        positionValues.add(String.format(Locale.getDefault(), "%.2f", d1));
-        positionValues.add(String.format(Locale.getDefault(), "%.2f", d2));
-        positionValues.add(String.format(Locale.getDefault(), "%.2f", d3));
-        positionValues.add(String.format(Locale.getDefault(), "%.2f", d4));
-        positionValues.add(String.format(Locale.getDefault(), "%.2f", d5));
-        positionValues.add(String.format(Locale.getDefault(), "%.2f", d6));
-        positionValues.add(String.format(Locale.getDefault(), "%.2f", d7));
-        positionValues.add(String.format(Locale.getDefault(), "%.2f", d8));
-        positionValues.add(String.format(Locale.getDefault(), "%.2f", d9));
+        positionValues.add(formatOutput(q1));
+        positionValues.add(formatOutput(q2));
+        positionValues.add(formatOutput(q3));
+        positionValues.add(formatOutput(d1));
+        positionValues.add(formatOutput(d2));
+        positionValues.add(formatOutput(d3));
+        positionValues.add(formatOutput(d4));
+        positionValues.add(formatOutput(d5));
+        positionValues.add(formatOutput(d6));
+        positionValues.add(formatOutput(d7));
+        positionValues.add(formatOutput(d8));
+        positionValues.add(formatOutput(d9));
 
         // TODO Calculate centils - (k * stats.getN())/ 100 - Where k is the centil value searched
 
@@ -437,19 +476,19 @@ public class DescriptiveActivity extends AppCompatActivity {
         double coefficientOfVariation = 0;
 
         dispertionValues.clear();
-        dispertionValues.add(String.format(Locale.getDefault(), "%.2f", range));
-        dispertionValues.add(String.format(Locale.getDefault(), "%.2f", averageDeviation));
-        dispertionValues.add(String.format(Locale.getDefault(), "%.2f", variance));
-        dispertionValues.add(String.format(Locale.getDefault(), "%.2f", standardDeviation));
-        dispertionValues.add(String.format(Locale.getDefault(), "%.2f", coefficientOfVariation));
+        dispertionValues.add(formatOutput(range));
+        dispertionValues.add(formatOutput(averageDeviation));
+        dispertionValues.add(formatOutput(variance));
+        dispertionValues.add(formatOutput(standardDeviation));
+        dispertionValues.add(formatOutput(coefficientOfVariation));
 
         // Measures of Form
         double skewness = stats.getSkewness();
         double kurtosis = stats.getKurtosis();
 
         formValues.clear();
-        formValues.add(String.format(Locale.getDefault(), "%.2f", skewness));
-        formValues.add(String.format(Locale.getDefault(), "%.2f", kurtosis));
+        formValues.add(formatOutput(skewness));
+        formValues.add(formatOutput(kurtosis));
 
         valuesHashMap.put(CENTRAL_TENDENCY_MEASURES, centralTendencyValues);
         valuesHashMap.put(POSITION_MEASURES, positionValues);

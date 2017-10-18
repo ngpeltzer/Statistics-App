@@ -20,15 +20,15 @@ import android.widget.Toast;
 
 import com.statiticsapp.Interfaces.GenericDialogListener;
 import com.statiticsapp.R;
+import com.statiticsapp.Utils.Constants;
 
 /**
  * Created by ngpeltzer on 6/16/16.
  */
 public class GenericDialog extends DialogFragment  {
 
-    Activity activity;
-    String message;
     GenericDialogListener callback;
+    String message;
     String title;
     String buttonOk;
     String buttonCancel;
@@ -37,10 +37,10 @@ public class GenericDialog extends DialogFragment  {
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
-        this.message = (String) args.getSerializable("message");
-        if(args.containsKey("title")) this.title = (String) args.getSerializable("title");
-        if(args.containsKey("buttonOk")) this.buttonOk = (String) args.getSerializable("buttonOk");
-        if(args.containsKey("buttonCancel")) this.buttonCancel = (String) args.getSerializable("buttonCancel");
+        this.message = (String) args.getSerializable(Constants.MESSAGE);
+        if(args.containsKey(Constants.TITLE)) this.title = (String) args.getSerializable(Constants.TITLE);
+        if(args.containsKey(Constants.BUTTON_OK)) this.buttonOk = (String) args.getSerializable(Constants.BUTTON_OK);
+        if(args.containsKey(Constants.BUTTON_CANCEL)) this.buttonCancel = (String) args.getSerializable(Constants.BUTTON_CANCEL);
 
     }
 
@@ -86,7 +86,7 @@ public class GenericDialog extends DialogFragment  {
                     median = Double.parseDouble(medianTxt.getText().toString());
                     stdDeviation = Double.parseDouble(stdDeviationTxt.getText().toString());
                 } catch (Exception ex) {
-                    Toast.makeText(activity, "Se deben completar los 3 campos obligatoriamente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Se deben completar los 3 campos obligatoriamente", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -97,8 +97,7 @@ public class GenericDialog extends DialogFragment  {
 
         if(buttonOk != null) ok.setText(buttonOk);
 
-        if(buttonCancel != null)
-        {
+        if(buttonCancel != null) {
             Button cancel = (Button) root.findViewById(R.id.generic_dialog_button_cancel);
             cancel.setVisibility(View.VISIBLE);
             cancel.setOnClickListener(new View.OnClickListener() {
@@ -110,25 +109,12 @@ public class GenericDialog extends DialogFragment  {
             cancel.setText(buttonCancel);
         }
 
-        if(title != null)
-        {
+        if(title != null) {
             TextView titleTV = (TextView) root.findViewById(R.id.generic_dialog_title);
             titleTV.setVisibility(View.VISIBLE);
             titleTV.setText(title);
         }
 
         return root;
-    }
-
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.activity = activity;
     }
 }

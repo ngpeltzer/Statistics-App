@@ -1,6 +1,7 @@
 package com.statiticsapp.Activities;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,7 +20,6 @@ import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
-import com.github.mikephil.charting.charts.BarChart;
 import com.statiticsapp.R;
 
 import org.apache.commons.math3.distribution.BinomialDistribution;
@@ -31,7 +31,6 @@ import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
 import org.apache.commons.math3.distribution.WeibullDistribution;
-import org.apache.commons.math3.geometry.euclidean.threed.Line;
 
 import java.util.Locale;
 
@@ -52,6 +51,7 @@ public class ModelsActivity extends AppCompatActivity {
     LinearLayout gumbelLayout;
     LinearLayout weibullLayout;
     LinearLayout resultLayout;
+    LinearLayout standardNormalLayout;
 
     EditText binomialSampleSizeEt;
     EditText binomialEventProbabilityEt;
@@ -78,6 +78,7 @@ public class ModelsActivity extends AppCompatActivity {
     EditText weibullAlphaEt;
     EditText weibullBetaEt;
     EditText weibullValueEt;
+    EditText standardNormalValueEt;
 
     TextView resultTxt;
     Spinner distributionsSpinner;
@@ -100,6 +101,7 @@ public class ModelsActivity extends AppCompatActivity {
     private static final int NORMAL_DISTRIBUTION = 6;
     private static final int GUMBEL_DISTRIBUTION = 7;
     private static final int WEIBULL_DISTRIBUTION = 8;
+    private static final int STANDARD_NORMAL_DISTRIBUTION = 9;
 
     private int selectedDistribution;
 
@@ -107,6 +109,8 @@ public class ModelsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_models);
+
+        Resources resources = getResources();
 
         pdfView = (PDFView) findViewById(R.id.tab_theory_pdf_view);
 
@@ -117,33 +121,34 @@ public class ModelsActivity extends AppCompatActivity {
         // Calculate Tab
         TabHost.TabSpec spec = mainTabHost.newTabSpec(CALCULATE);
         spec.setContent(R.id.tab1);
-        spec.setIndicator("Cálculos");
+        spec.setIndicator(resources.getString(R.string.tab_calculate));
         mainTabHost.addTab(spec);
 
         // Graphics Tab
         spec = mainTabHost.newTabSpec(GRAPHICS);
         spec.setContent(R.id.tab2);
-        spec.setIndicator("Gráficos");
+        spec.setIndicator(resources.getString(R.string.tab_graphics));
         mainTabHost.addTab(spec);
 
         // Theory Tab
         spec = mainTabHost.newTabSpec(THEORY);
         spec.setContent(R.id.tab3);
-        spec.setIndicator("Teoría");
+        spec.setIndicator(resources.getString(R.string.tab_theory));
         mainTabHost.addTab(spec);
 
         mainTabHost.setCurrentTab(CALCULATE_TAB);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-        adapter.add("Binomial");
-        adapter.add("Geométrica");
-        adapter.add("Poisson");
-        adapter.add("Hypergeométrica");
-        adapter.add("Exponencial");
-        adapter.add("Gamma");
-        adapter.add("Normal");
-        adapter.add("Gumbel");
-        adapter.add("Weibull");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        adapter.add(resources.getString(R.string.binomial));
+        adapter.add(resources.getString(R.string.geometric));
+        adapter.add(resources.getString(R.string.poisson));
+        adapter.add(resources.getString(R.string.hypergeometric));
+        adapter.add(resources.getString(R.string.exponential));
+        adapter.add(resources.getString(R.string.gamma));
+        adapter.add(resources.getString(R.string.normal));
+        adapter.add(resources.getString(R.string.gumbel));
+        adapter.add(resources.getString(R.string.weibull));
+        adapter.add(resources.getString(R.string.standard_normal));
 
         distributionsSpinner = (Spinner) findViewById(R.id.distributions_spinner);
         distributionsSpinner.setAdapter(adapter);
@@ -278,6 +283,18 @@ public class ModelsActivity extends AppCompatActivity {
 
                         showResult(weibullResult);
                         break;
+                    case STANDARD_NORMAL_DISTRIBUTION:
+                        int standardNormalMean = 0;
+                        int standardNormalStdDeviation = 1;
+                        double standardNormalZ = Double.parseDouble(standardNormalValueEt.getText().toString());
+
+                        NormalDistribution standardNormalDistribution = new NormalDistribution(standardNormalMean, standardNormalStdDeviation);
+                        double standardNormalResult = 0;
+                        if(accumulates) standardNormalResult = standardNormalDistribution.cumulativeProbability(standardNormalZ);
+                        else standardNormalResult = standardNormalDistribution.probability(standardNormalZ);
+
+                        showResult(standardNormalResult);
+                        break;
                 }
 
                 scrollDown();
@@ -326,6 +343,9 @@ public class ModelsActivity extends AppCompatActivity {
         weibullAlphaEt = (EditText) findViewById(R.id.weibull_alpha);
         weibullBetaEt = (EditText) findViewById(R.id.weibull_beta);
         weibullValueEt = (EditText) findViewById(R.id.weibull_value);
+
+        standardNormalLayout = (LinearLayout) findViewById(R.id.standard_normal_layout);
+        standardNormalValueEt = (EditText) findViewById(R.id.standard_normal_value);
 
         resultLayout = (LinearLayout) findViewById(R.id.result_layout);
         resultTxt = (TextView) findViewById(R.id.result);
@@ -402,6 +422,10 @@ public class ModelsActivity extends AppCompatActivity {
                 isContinuosDistribution(true);
                 weibullLayout.setVisibility(View.VISIBLE);
                 break;
+            case STANDARD_NORMAL_DISTRIBUTION:
+                isContinuosDistribution(true);
+                standardNormalLayout.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
@@ -415,6 +439,7 @@ public class ModelsActivity extends AppCompatActivity {
         normalLayout.setVisibility(GONE);
         gumbelLayout.setVisibility(GONE);
         weibullLayout.setVisibility(GONE);
+        standardNormalLayout.setVisibility(GONE);
         resultLayout.setVisibility(GONE);
     }
 
@@ -595,6 +620,12 @@ public class ModelsActivity extends AppCompatActivity {
                     }
                 }
                 if(isInputEmpty(weibullValueEt)) {
+                    result = false;
+                    showToast(getResources().getString(R.string.x_value_error));
+                }
+                break;
+            case STANDARD_NORMAL_DISTRIBUTION:
+                if (isInputEmpty(standardNormalValueEt)) {
                     result = false;
                     showToast(getResources().getString(R.string.x_value_error));
                 }
