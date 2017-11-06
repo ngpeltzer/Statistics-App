@@ -12,10 +12,6 @@ import com.statiticsapp.R;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Augusto Herbel on 24/5/2017.
- */
-
 public class CalculateExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;

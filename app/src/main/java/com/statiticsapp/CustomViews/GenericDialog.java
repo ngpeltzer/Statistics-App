@@ -1,11 +1,8 @@
 package com.statiticsapp.CustomViews;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,9 +19,6 @@ import com.statiticsapp.Interfaces.GenericDialogListener;
 import com.statiticsapp.R;
 import com.statiticsapp.Utils.Constants;
 
-/**
- * Created by ngpeltzer on 6/16/16.
- */
 public class GenericDialog extends DialogFragment  {
 
     GenericDialogListener callback;
@@ -56,8 +50,10 @@ public class GenericDialog extends DialogFragment  {
         Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(root);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        if(dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
 
         return dialog;
     }
@@ -66,20 +62,20 @@ public class GenericDialog extends DialogFragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.dialog_generic, container, false);
 
-        TextView messageTV = (TextView) root.findViewById(R.id.generic_dialog_message);
+        TextView messageTV = root.findViewById(R.id.generic_dialog_message);
         messageTV.setText(message);
 
-        Button ok = (Button) root.findViewById(R.id.generic_dialog_button_ok);
+        Button ok = root.findViewById(R.id.generic_dialog_button_ok);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText sampleSizeTxt = (EditText) root.findViewById(R.id.dialog_sample_size);
-                EditText medianTxt = (EditText) root.findViewById(R.id.dialog_median);
-                EditText stdDeviationTxt = (EditText) root.findViewById(R.id.dialog_std_deviation);
+                EditText sampleSizeTxt = root.findViewById(R.id.dialog_sample_size);
+                EditText medianTxt = root.findViewById(R.id.dialog_median);
+                EditText stdDeviationTxt = root.findViewById(R.id.dialog_std_deviation);
 
-                int sampleSize = 0;
-                double median = 0;
-                double stdDeviation = 0;
+                int sampleSize;
+                double median;
+                double stdDeviation;
 
                 try {
                     sampleSize = Integer.parseInt(sampleSizeTxt.getText().toString());
@@ -98,7 +94,7 @@ public class GenericDialog extends DialogFragment  {
         if(buttonOk != null) ok.setText(buttonOk);
 
         if(buttonCancel != null) {
-            Button cancel = (Button) root.findViewById(R.id.generic_dialog_button_cancel);
+            Button cancel = root.findViewById(R.id.generic_dialog_button_cancel);
             cancel.setVisibility(View.VISIBLE);
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -110,7 +106,7 @@ public class GenericDialog extends DialogFragment  {
         }
 
         if(title != null) {
-            TextView titleTV = (TextView) root.findViewById(R.id.generic_dialog_title);
+            TextView titleTV = root.findViewById(R.id.generic_dialog_title);
             titleTV.setVisibility(View.VISIBLE);
             titleTV.setText(title);
         }

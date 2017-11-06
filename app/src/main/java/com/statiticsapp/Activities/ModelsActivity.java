@@ -112,10 +112,10 @@ public class ModelsActivity extends AppCompatActivity {
 
         Resources resources = getResources();
 
-        pdfView = (PDFView) findViewById(R.id.tab_theory_pdf_view);
+        pdfView = findViewById(R.id.tab_theory_pdf_view);
 
         // Main Tab Host
-        mainTabHost = (TabHost) findViewById(R.id.activity_main_tab_host);
+        mainTabHost = findViewById(R.id.activity_main_tab_host);
         mainTabHost.setup();
 
         // Calculate Tab
@@ -150,7 +150,7 @@ public class ModelsActivity extends AppCompatActivity {
         adapter.add(resources.getString(R.string.weibull));
         adapter.add(resources.getString(R.string.standard_normal));
 
-        distributionsSpinner = (Spinner) findViewById(R.id.distributions_spinner);
+        distributionsSpinner = findViewById(R.id.distributions_spinner);
         distributionsSpinner.setAdapter(adapter);
         distributionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -165,12 +165,14 @@ public class ModelsActivity extends AppCompatActivity {
             }
         });
 
-        calculateButton = (Button) findViewById(R.id.calculate);
+        calculateButton = findViewById(R.id.calculate);
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                if(inputManager != null && getCurrentFocus() != null) {
+                    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
 
                 if(!checkForInvalidInputs()) return;
 
@@ -183,7 +185,7 @@ public class ModelsActivity extends AppCompatActivity {
                         int binomialX = Integer.parseInt(binomialValueEt.getText().toString());
 
                         BinomialDistribution binomialDistribution = new BinomialDistribution(binomialSampleSize, eventProbability);
-                        double binomialResult = 0;
+                        double binomialResult;
                         if(accumulates) binomialResult = binomialDistribution.cumulativeProbability(binomialX);
                         else binomialResult = binomialDistribution.probability(binomialX);
 
@@ -194,7 +196,7 @@ public class ModelsActivity extends AppCompatActivity {
                         int geometricX = Integer.parseInt(geometricValueEt.getText().toString());
 
                         GeometricDistribution geometricDistribution = new GeometricDistribution(successProbability);
-                        double geometricResult = 0;
+                        double geometricResult;
                         if(accumulates) geometricResult = geometricDistribution.cumulativeProbability(geometricX);
                         else geometricResult = geometricDistribution.probability(geometricX);
 
@@ -205,7 +207,7 @@ public class ModelsActivity extends AppCompatActivity {
                         int poissonX = Integer.parseInt(poissonValueEt.getText().toString());
 
                         PoissonDistribution poissonDistribution = new PoissonDistribution(expectedNumberOfOcurrences);
-                        double poissonResult = 0;
+                        double poissonResult;
                         if(accumulates) poissonResult = poissonDistribution.cumulativeProbability(poissonX);
                         else poissonResult = poissonDistribution.probability(poissonX);
 
@@ -218,7 +220,7 @@ public class ModelsActivity extends AppCompatActivity {
                         int hypergeometricX = Integer.parseInt(hypergeometricValueEt.getText().toString());
 
                         HypergeometricDistribution hypergeometricDistribution = new HypergeometricDistribution(populationSize, positivesInPopulation, hypergeometricSampleSize);
-                        double hypergeometricResult = 0;
+                        double hypergeometricResult;
                         if(accumulates) hypergeometricResult = hypergeometricDistribution.cumulativeProbability(hypergeometricX);
                         else hypergeometricResult = hypergeometricDistribution.probability(hypergeometricX);
 
@@ -229,7 +231,7 @@ public class ModelsActivity extends AppCompatActivity {
                         double exponentialX = Double.parseDouble(exponentialValueEt.getText().toString());
 
                         ExponentialDistribution exponentialDistribution = new ExponentialDistribution(mean);
-                        double exponentialResult = 0;
+                        double exponentialResult;
                         if(accumulates) exponentialResult = exponentialDistribution.cumulativeProbability(exponentialX);
                         else exponentialResult = exponentialDistribution.probability(exponentialX);
 
@@ -241,7 +243,7 @@ public class ModelsActivity extends AppCompatActivity {
                         double gammaX = Double.parseDouble(gammaValueEt.getText().toString());
 
                         GammaDistribution gammaDistribution = new GammaDistribution(shape, scale);
-                        double gammaResult = 0;
+                        double gammaResult;
                         if(accumulates) gammaResult = gammaDistribution.cumulativeProbability(gammaX);
                         else gammaResult = gammaDistribution.probability(gammaX);
 
@@ -253,7 +255,7 @@ public class ModelsActivity extends AppCompatActivity {
                         double normalX = Double.parseDouble(normalValueEt.getText().toString());
 
                         NormalDistribution normalDistribution = new NormalDistribution(normalMean, normalStdDeviation);
-                        double normalResult = 0;
+                        double normalResult;
                         if(accumulates) normalResult = normalDistribution.cumulativeProbability(normalX);
                         else normalResult = normalDistribution.probability(normalX);
 
@@ -265,7 +267,7 @@ public class ModelsActivity extends AppCompatActivity {
                         double gumbelX = Double.parseDouble(gumbelValueEt.getText().toString());
 
                         GumbelDistribution gumbelDistribution = new GumbelDistribution(mu, gumbelBeta);
-                        double gumbelResult = 0;
+                        double gumbelResult;
                         if(accumulates) gumbelResult = gumbelDistribution.cumulativeProbability(gumbelX);
                         else gumbelResult = gumbelDistribution.probability(gumbelX);
 
@@ -277,7 +279,7 @@ public class ModelsActivity extends AppCompatActivity {
                         double weibullX = Double.parseDouble(weibullValueEt.getText().toString());
 
                         WeibullDistribution weibullDistribution = new WeibullDistribution(weibullAlpha, weibullBeta);
-                        double weibullResult = 0;
+                        double weibullResult;
                         if(accumulates) weibullResult = weibullDistribution.cumulativeProbability(weibullX);
                         else weibullResult = weibullDistribution.probability(weibullX);
 
@@ -289,7 +291,7 @@ public class ModelsActivity extends AppCompatActivity {
                         double standardNormalZ = Double.parseDouble(standardNormalValueEt.getText().toString());
 
                         NormalDistribution standardNormalDistribution = new NormalDistribution(standardNormalMean, standardNormalStdDeviation);
-                        double standardNormalResult = 0;
+                        double standardNormalResult;
                         if(accumulates) standardNormalResult = standardNormalDistribution.cumulativeProbability(standardNormalZ);
                         else standardNormalResult = standardNormalDistribution.probability(standardNormalZ);
 
@@ -301,56 +303,56 @@ public class ModelsActivity extends AppCompatActivity {
             }
         });
 
-        binomialLayout = (LinearLayout) findViewById(R.id.binomial_layout);
-        binomialSampleSizeEt = (EditText) findViewById(R.id.binomial_sample_size);
-        binomialEventProbabilityEt = (EditText) findViewById(R.id.binomial_event_probability);
-        binomialValueEt = (EditText) findViewById(R.id.binomial_value);
+        binomialLayout = findViewById(R.id.binomial_layout);
+        binomialSampleSizeEt = findViewById(R.id.binomial_sample_size);
+        binomialEventProbabilityEt = findViewById(R.id.binomial_event_probability);
+        binomialValueEt = findViewById(R.id.binomial_value);
 
-        geometricLayout = (LinearLayout) findViewById(R.id.geometric_layout);
-        geometricSuccessProbabilityEt = (EditText) findViewById(R.id.geometric_success_probability);
-        geometricValueEt = (EditText) findViewById(R.id.geometric_value);
+        geometricLayout = findViewById(R.id.geometric_layout);
+        geometricSuccessProbabilityEt = findViewById(R.id.geometric_success_probability);
+        geometricValueEt = findViewById(R.id.geometric_value);
 
-        poissonLayout = (LinearLayout) findViewById(R.id.poisson_layout);
-        poissonExpectedNumberOfOcurrencesEt = (EditText) findViewById(R.id.poisson_expected_number_ocurrences);
-        poissonValueEt = (EditText) findViewById(R.id.poisson_value);
+        poissonLayout = findViewById(R.id.poisson_layout);
+        poissonExpectedNumberOfOcurrencesEt = findViewById(R.id.poisson_expected_number_ocurrences);
+        poissonValueEt = findViewById(R.id.poisson_value);
 
-        hypergeometricLayout = (LinearLayout) findViewById(R.id.hypergemoetric_layout);
-        hypergeometricPopulationSizeEt = (EditText) findViewById(R.id.hypergemoetric_population_size);
-        hypergeometricPositivesInPopulationEt = (EditText) findViewById(R.id.hypergemoetric_positives_in_population);
-        hypergeometricSampleSizeEt = (EditText) findViewById(R.id.hypergemoetric_sample_size);
-        hypergeometricValueEt = (EditText) findViewById(R.id.hypergemoetric_value);
+        hypergeometricLayout = findViewById(R.id.hypergemoetric_layout);
+        hypergeometricPopulationSizeEt = findViewById(R.id.hypergemoetric_population_size);
+        hypergeometricPositivesInPopulationEt = findViewById(R.id.hypergemoetric_positives_in_population);
+        hypergeometricSampleSizeEt = findViewById(R.id.hypergemoetric_sample_size);
+        hypergeometricValueEt = findViewById(R.id.hypergemoetric_value);
 
-        exponentialLayout = (LinearLayout) findViewById(R.id.exponential_layout);
-        exponentialMeanEt = (EditText) findViewById(R.id.exponential_mean);
-        exponentialValueEt = (EditText) findViewById(R.id.exponential_value);
+        exponentialLayout = findViewById(R.id.exponential_layout);
+        exponentialMeanEt = findViewById(R.id.exponential_mean);
+        exponentialValueEt = findViewById(R.id.exponential_value);
 
-        gammaLayout = (LinearLayout) findViewById(R.id.gamma_layout);
-        gammaShapeEt = (EditText) findViewById(R.id.gamma_shape);
-        gammaScaleEt = (EditText) findViewById(R.id.gamma_scale);
-        gammaValueEt = (EditText) findViewById(R.id.gamma_value);
+        gammaLayout = findViewById(R.id.gamma_layout);
+        gammaShapeEt = findViewById(R.id.gamma_shape);
+        gammaScaleEt = findViewById(R.id.gamma_scale);
+        gammaValueEt = findViewById(R.id.gamma_value);
 
-        normalLayout = (LinearLayout) findViewById(R.id.normal_layout);
-        normalMeanEt = (EditText) findViewById(R.id.normal_mean);
-        normalStdDeviationEt = (EditText) findViewById(R.id.normal_standard_deviation);
-        normalValueEt = (EditText) findViewById(R.id.normal_value);
+        normalLayout = findViewById(R.id.normal_layout);
+        normalMeanEt = findViewById(R.id.normal_mean);
+        normalStdDeviationEt = findViewById(R.id.normal_standard_deviation);
+        normalValueEt = findViewById(R.id.normal_value);
 
-        gumbelLayout = (LinearLayout) findViewById(R.id.gumbel_layout);
-        gumbelMuEt = (EditText) findViewById(R.id.gumbel_mu);
-        gumbelBetaEt = (EditText) findViewById(R.id.gumbel_beta);
-        gumbelValueEt = (EditText) findViewById(R.id.gumbel_value);
+        gumbelLayout = findViewById(R.id.gumbel_layout);
+        gumbelMuEt = findViewById(R.id.gumbel_mu);
+        gumbelBetaEt = findViewById(R.id.gumbel_beta);
+        gumbelValueEt = findViewById(R.id.gumbel_value);
 
-        weibullLayout = (LinearLayout) findViewById(R.id.weibull_layout);
-        weibullAlphaEt = (EditText) findViewById(R.id.weibull_alpha);
-        weibullBetaEt = (EditText) findViewById(R.id.weibull_beta);
-        weibullValueEt = (EditText) findViewById(R.id.weibull_value);
+        weibullLayout = findViewById(R.id.weibull_layout);
+        weibullAlphaEt = findViewById(R.id.weibull_alpha);
+        weibullBetaEt = findViewById(R.id.weibull_beta);
+        weibullValueEt = findViewById(R.id.weibull_value);
 
-        standardNormalLayout = (LinearLayout) findViewById(R.id.standard_normal_layout);
-        standardNormalValueEt = (EditText) findViewById(R.id.standard_normal_value);
+        standardNormalLayout = findViewById(R.id.standard_normal_layout);
+        standardNormalValueEt = findViewById(R.id.standard_normal_value);
 
-        resultLayout = (LinearLayout) findViewById(R.id.result_layout);
-        resultTxt = (TextView) findViewById(R.id.result);
-        cumulativeCb = (CheckBox) findViewById(R.id.cumulative_checkbox);
-        scrollView = (ScrollView) findViewById(R.id.tab1);
+        resultLayout = findViewById(R.id.result_layout);
+        resultTxt = findViewById(R.id.result);
+        cumulativeCb = findViewById(R.id.cumulative_checkbox);
+        scrollView = findViewById(R.id.tab1);
 
         pdfView.fromAsset("models.pdf")
                .enableSwipe(true)

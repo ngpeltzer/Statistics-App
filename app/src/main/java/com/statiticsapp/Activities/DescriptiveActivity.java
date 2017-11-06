@@ -1,6 +1,5 @@
 package com.statiticsapp.Activities;
 
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.common.primitives.Doubles;
-import com.opencsv.CSVReader;
 import com.statiticsapp.Adapters.CalculateExpandableListAdapter;
 import com.statiticsapp.CustomViews.GenericDialog;
 import com.statiticsapp.Interfaces.GenericDialogListener;
@@ -35,7 +33,6 @@ import org.apache.commons.math3.util.Precision;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,16 +65,16 @@ public class DescriptiveActivity extends AppCompatActivity {
     List<String> dispertionValues;
     List<String> formValues;
 
-    private static String CALCULATE = "tab1";
-    private static String GRAPHICS = "tab2";
-    private static String THEORY = "tab3";
-    private static String CENTRAL_TENDENCY_MEASURES = "Medidas de Tendencia Central";
-    private static String POSITION_MEASURES = "Medidas de Posición";
-    private static String DISPERTION_MEASURES = "Medidas de Dispersión";
-    private static String FORM_MEASURES = "Medidas de Forma";
-    private static int BIN_COUNT = 10;
+    private static final String CALCULATE = "tab1";
+    private static final String GRAPHICS = "tab2";
+    private static final String THEORY = "tab3";
+    private static final String CENTRAL_TENDENCY_MEASURES = "Medidas de Tendencia Central";
+    private static final String POSITION_MEASURES = "Medidas de Posición";
+    private static final String DISPERTION_MEASURES = "Medidas de Dispersión";
+    private static final String FORM_MEASURES = "Medidas de Forma";
+    private static final int BIN_COUNT = 10;
 
-    private static int CALCULATE_TAB = 0;
+    private static final int CALCULATE_TAB = 0;
 
     //private static int OPEN_CSV_FILE = 3;
     private static int OPEN_EXCEL_FILE = 4;
@@ -92,13 +89,13 @@ public class DescriptiveActivity extends AppCompatActivity {
         dispertionValues = new ArrayList<>();
         formValues = new ArrayList<>();
 
-        pdfView = (PDFView) findViewById(R.id.tab_theory_pdf_view);
-        graphView = (BarChart) findViewById(R.id.tab_graphs_graph_view);
-        stemTxt = (TextView) findViewById(R.id.tab_graphs_stem);
-        leafTxt = (TextView) findViewById(R.id.tab_graphs_leaf);
+        pdfView = findViewById(R.id.tab_theory_pdf_view);
+        graphView = findViewById(R.id.tab_graphs_graph_view);
+        stemTxt = findViewById(R.id.tab_graphs_stem);
+        leafTxt = findViewById(R.id.tab_graphs_leaf);
 
         // Main Tab Host
-        mainTabHost = (TabHost) findViewById(R.id.activity_main_tab_host);
+        mainTabHost = findViewById(R.id.activity_main_tab_host);
         mainTabHost.setup();
 
         // Calculate Tab
@@ -175,7 +172,7 @@ public class DescriptiveActivity extends AppCompatActivity {
         valuesHashMap.put(FORM_MEASURES, formValues);
         cela = new CalculateExpandableListAdapter(this, listTitles, labelsHashMap, valuesHashMap);
 
-        calculateExpandableListView = (ExpandableListView) findViewById(R.id.tab_calculate_expandable_list_view);
+        calculateExpandableListView = findViewById(R.id.tab_calculate_expandable_list_view);
         calculateExpandableListView.setAdapter(cela);
 
         pdfView.fromAsset("descriptive.pdf")
@@ -341,22 +338,26 @@ public class DescriptiveActivity extends AppCompatActivity {
         // Stem and leaf diagram
         SortedMap<Integer, List<Integer>> steamAndLeafData = calculateStemsAndLeafs(data);
         Iterator mapIterator = steamAndLeafData.entrySet().iterator();
-        String stemsString = "Tallo\n\n";
-        String leafsString = "Hoja\n\n";
+        StringBuilder stemsStringBuilder = new StringBuilder();
+        StringBuilder leafsStringBuilder = new StringBuilder();
+        stemsStringBuilder.append("Tallo\n\n");
+        leafsStringBuilder.append("Hoja\n\n");
 
         while(mapIterator.hasNext()) {
             Map.Entry entry = (Map.Entry) mapIterator.next();
-            stemsString += entry.getKey() + "\n";
+            stemsStringBuilder.append(entry.getKey());
+            stemsStringBuilder.append("\n");
             List<Integer> leafs = (List<Integer>) entry.getValue();
             Collections.sort(leafs);
             for(int i = 0; i < leafs.size(); i++) {
-                leafsString += leafs.get(i).toString() + " ";
+                leafsStringBuilder.append(leafs.get(i).toString());
+                leafsStringBuilder.append(" ");
             }
-            leafsString += "\n";
+            leafsStringBuilder.append("\n");
         }
 
-        stemTxt.setText(stemsString);
-        leafTxt.setText(leafsString);
+        stemTxt.setText(stemsStringBuilder.toString());
+        leafTxt.setText(leafsStringBuilder.toString());
     }
 
     double calculateBinSize(double max, double min, int numBins) {
@@ -378,7 +379,22 @@ public class DescriptiveActivity extends AppCompatActivity {
     SortedMap<Integer, List<Integer>> calculateStemsAndLeafs(double[] data) {
         SortedMap<Integer, List<Integer>> result = new TreeMap<>();
 
-        for(int i = 0; i < data.length; i++) {
+        for (double i : data) {
+            int actualStem = (int) i;
+            double leaf = Precision.round(i, 1);
+            leaf = (leaf - actualStem) * 10;
+            leaf = Math.abs(Precision.round(leaf, 0, BigDecimal.ROUND_HALF_DOWN));
+
+            if(!result.containsKey(actualStem)) {
+                List<Integer> leafs = new ArrayList<>();
+                leafs.add((int)leaf);
+                result.put(actualStem, leafs);
+            }
+            else {
+                result.get(actualStem).add((int)leaf);
+            }
+        }
+        /*for(int i = 0; i < data.length; i++) {
             int actualStem = (int)data[i];
             double leaf = Precision.round(data[i], 1);
             leaf = (leaf - actualStem) * 10;
@@ -392,7 +408,7 @@ public class DescriptiveActivity extends AppCompatActivity {
             else {
                 result.get(actualStem).add((int)leaf);
             }
-        }
+        }*/
 
         return result;
     }
