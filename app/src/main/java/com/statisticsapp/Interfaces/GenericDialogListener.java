@@ -1,4 +1,4 @@
-package com.statiticsapp.Interfaces;
+package com.statisticsapp.Interfaces;
 
 public interface GenericDialogListener {
 

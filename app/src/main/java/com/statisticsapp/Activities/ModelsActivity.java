@@ -1,4 +1,4 @@
-package com.statiticsapp.Activities;
+package com.statisticsapp.Activities;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
-import com.statiticsapp.R;
+import com.statisticsapp.R;
 
 import org.apache.commons.math3.distribution.BinomialDistribution;
 import org.apache.commons.math3.distribution.ExponentialDistribution;

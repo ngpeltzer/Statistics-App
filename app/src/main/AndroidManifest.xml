@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.statiticsapp">
+    package="com.statisticsapp">
 
     <application
         android:allowBackup="true"
@@ -10,18 +10,18 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".Activities.DescriptiveActivity"
+            android:name="com.statisticsapp.Activities.DescriptiveActivity"
             android:label="Descriptiva"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".Activities.MainActivity">
+        <activity android:name="com.statisticsapp.Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activities.ModelsActivity"
+        <activity android:name="com.statisticsapp.Activities.ModelsActivity"
             android:label="Modelos"
             android:screenOrientation="portrait">
         </activity>

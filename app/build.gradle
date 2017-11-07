@@ -7,7 +7,7 @@ android {
         abortOnError false
     }
     defaultConfig {
-        applicationId "com.statiticsapp"
+        applicationId "com.statisticsapp"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 10

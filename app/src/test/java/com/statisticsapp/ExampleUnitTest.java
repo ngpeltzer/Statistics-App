@@ -1,4 +1,4 @@
-package com.statiticsapp;
+package com.statisticsapp;
 
 import org.junit.Test;
 

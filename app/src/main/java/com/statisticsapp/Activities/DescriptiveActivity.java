@@ -1,4 +1,4 @@
-package com.statiticsapp.Activities;
+package com.statisticsapp.Activities;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -21,11 +21,11 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.common.primitives.Doubles;
-import com.statiticsapp.Adapters.CalculateExpandableListAdapter;
-import com.statiticsapp.CustomViews.GenericDialog;
-import com.statiticsapp.Interfaces.GenericDialogListener;
-import com.statiticsapp.R;
-import com.statiticsapp.Utils.Constants;
+import com.statisticsapp.Adapters.CalculateExpandableListAdapter;
+import com.statisticsapp.CustomViews.GenericDialog;
+import com.statisticsapp.Interfaces.GenericDialogListener;
+import com.statisticsapp.R;
+import com.statisticsapp.Utils.Constants;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;

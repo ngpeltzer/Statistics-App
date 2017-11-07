@@ -1,4 +1,4 @@
-package com.statiticsapp.CustomViews;
+package com.statisticsapp.CustomViews;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -15,9 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.statiticsapp.Interfaces.GenericDialogListener;
-import com.statiticsapp.R;
-import com.statiticsapp.Utils.Constants;
+import com.statisticsapp.Interfaces.GenericDialogListener;
+import com.statisticsapp.R;
+import com.statisticsapp.Utils.Constants;
 
 public class GenericDialog extends DialogFragment  {
 

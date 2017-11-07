@@ -1,4 +1,4 @@
-package com.statiticsapp.Adapters;
+package com.statisticsapp.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.statiticsapp.R;
+import com.statisticsapp.R;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.statiticsapp.Utils;
+package com.statisticsapp.Utils;
 
 public class Constants {
 
