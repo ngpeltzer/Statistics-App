@@ -19,6 +19,7 @@
     <string name="sample_size">Tamaño de la muestra</string>
     <string name="value_x">Valor (x):</string>
     <string name="value_z">Valor (z):</string>
+    <string name="probability">Probabilidad (entre 0 y 1):</string>
     <string name="calculate">Calcular</string>
     <string name="accumulate">¿Acumula?</string>
     <string name="select_distribution">Selecciona una distribución</string>
@@ -47,4 +48,5 @@
     <string name="gumbel">Gumbel</string>
     <string name="weibull">Weibull</string>
     <string name="standard_normal">Normal Estándar</string>
+    <string name="inverse_standard_normal">Normal Inversa</string>
 </resources>

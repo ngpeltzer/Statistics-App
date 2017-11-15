@@ -22,6 +22,7 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.statisticsapp.R;
 
+import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.apache.commons.math3.distribution.BinomialDistribution;
 import org.apache.commons.math3.distribution.ExponentialDistribution;
 import org.apache.commons.math3.distribution.GammaDistribution;
@@ -52,6 +53,7 @@ public class ModelsActivity extends AppCompatActivity {
     LinearLayout weibullLayout;
     LinearLayout resultLayout;
     LinearLayout standardNormalLayout;
+    LinearLayout inverseStandardNormalLayout;
 
     EditText binomialSampleSizeEt;
     EditText binomialEventProbabilityEt;
@@ -79,6 +81,7 @@ public class ModelsActivity extends AppCompatActivity {
     EditText weibullBetaEt;
     EditText weibullValueEt;
     EditText standardNormalValueEt;
+    EditText inverseStandardNormalValueEt;
 
     TextView resultTxt;
     Spinner distributionsSpinner;
@@ -102,6 +105,7 @@ public class ModelsActivity extends AppCompatActivity {
     private static final int GUMBEL_DISTRIBUTION = 7;
     private static final int WEIBULL_DISTRIBUTION = 8;
     private static final int STANDARD_NORMAL_DISTRIBUTION = 9;
+    private static final int INVERSE_STANDARD_NORMAL_DISTRIBUTION = 10;
 
     private int selectedDistribution;
 
@@ -149,6 +153,7 @@ public class ModelsActivity extends AppCompatActivity {
         adapter.add(resources.getString(R.string.gumbel));
         adapter.add(resources.getString(R.string.weibull));
         adapter.add(resources.getString(R.string.standard_normal));
+        adapter.add(resources.getString(R.string.inverse_standard_normal));
 
         distributionsSpinner = findViewById(R.id.distributions_spinner);
         distributionsSpinner.setAdapter(adapter);
@@ -169,10 +174,7 @@ public class ModelsActivity extends AppCompatActivity {
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                if(inputManager != null && getCurrentFocus() != null) {
-                    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                }
+                hideSoftKeyboard();
 
                 if(!checkForInvalidInputs()) return;
 
@@ -297,12 +299,31 @@ public class ModelsActivity extends AppCompatActivity {
 
                         showResult(standardNormalResult);
                         break;
+                    case INVERSE_STANDARD_NORMAL_DISTRIBUTION:
+                        double inverseStandardNormalP = Double.parseDouble(inverseStandardNormalValueEt.getText().toString());
+
+                        NormalDistribution inverseStandardNormalDistribution = new NormalDistribution();
+                        double inverseStandardNormalResult = inverseStandardNormalDistribution.inverseCumulativeProbability(inverseStandardNormalP);
+
+                        showResult(inverseStandardNormalResult);
+                        break;
                 }
 
                 scrollDown();
             }
         });
 
+        initViews();
+
+        pdfView.fromAsset("models.pdf")
+               .enableSwipe(true)
+               .swipeHorizontal(true)
+               .enableDoubletap(true)
+               .scrollHandle(new DefaultScrollHandle(this))
+               .load();
+    }
+
+    private void initViews() {
         binomialLayout = findViewById(R.id.binomial_layout);
         binomialSampleSizeEt = findViewById(R.id.binomial_sample_size);
         binomialEventProbabilityEt = findViewById(R.id.binomial_event_probability);
@@ -349,17 +370,20 @@ public class ModelsActivity extends AppCompatActivity {
         standardNormalLayout = findViewById(R.id.standard_normal_layout);
         standardNormalValueEt = findViewById(R.id.standard_normal_value);
 
+        inverseStandardNormalLayout = findViewById(R.id.inverse_standard_normal_layout);
+        inverseStandardNormalValueEt = findViewById(R.id.inverse_standard_normal_value);
+
         resultLayout = findViewById(R.id.result_layout);
         resultTxt = findViewById(R.id.result);
         cumulativeCb = findViewById(R.id.cumulative_checkbox);
         scrollView = findViewById(R.id.tab1);
+    }
 
-        pdfView.fromAsset("models.pdf")
-               .enableSwipe(true)
-               .swipeHorizontal(true)
-               .enableDoubletap(true)
-               .scrollHandle(new DefaultScrollHandle(this))
-               .load();
+    private void hideSoftKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(inputManager != null && getCurrentFocus() != null) {
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     private void showResult(double result) {
@@ -428,6 +452,10 @@ public class ModelsActivity extends AppCompatActivity {
                 isContinuosDistribution(true);
                 standardNormalLayout.setVisibility(View.VISIBLE);
                 break;
+            case INVERSE_STANDARD_NORMAL_DISTRIBUTION:
+                isContinuosDistribution(true);
+                inverseStandardNormalLayout.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
@@ -442,6 +470,7 @@ public class ModelsActivity extends AppCompatActivity {
         gumbelLayout.setVisibility(GONE);
         weibullLayout.setVisibility(GONE);
         standardNormalLayout.setVisibility(GONE);
+        inverseStandardNormalLayout.setVisibility(GONE);
         resultLayout.setVisibility(GONE);
     }
 
@@ -630,6 +659,19 @@ public class ModelsActivity extends AppCompatActivity {
                 if (isInputEmpty(standardNormalValueEt)) {
                     result = false;
                     showToast(getResources().getString(R.string.x_value_error));
+                }
+                break;
+            case INVERSE_STANDARD_NORMAL_DISTRIBUTION:
+                if(isInputEmpty(inverseStandardNormalValueEt)) {
+                    result = false;
+                    showToast("Debe ingresar un valor de probabilidad.");
+                }
+                else {
+                    double probability = Double.parseDouble(inverseStandardNormalValueEt.getText().toString());
+                    if(probability < 0 || probability > 1) {
+                        result = false;
+                        showToast("El valor de probabilidad debe estar entre 0 y 1.");
+                    }
                 }
                 break;
         }
