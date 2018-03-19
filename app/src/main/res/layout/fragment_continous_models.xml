@@ -524,7 +524,7 @@
         <LinearLayout
             android:id="@+id/inverse_exponential_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -588,7 +588,7 @@
         <LinearLayout
             android:id="@+id/inverse_gamma_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -658,7 +658,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/value_x" />
+                    android:text="@string/probability" />
 
                 <EditText
                     android:id="@+id/inverse_gamma_value"
@@ -676,7 +676,7 @@
         <LinearLayout
             android:id="@+id/inverse_gumbel_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -746,7 +746,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/value_x" />
+                    android:text="@string/probability" />
 
                 <EditText
                     android:id="@+id/inverse_gumbel_value"
@@ -764,7 +764,7 @@
         <LinearLayout
             android:id="@+id/inverse_weibull_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -834,7 +834,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/value_x" />
+                    android:text="@string/probability" />
 
                 <EditText
                     android:id="@+id/inverse_weibull_value"
