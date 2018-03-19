@@ -1,4 +1,4 @@
-package com.statisticsapp.Adapters;
+package com.statisticsapp.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,16 +14,13 @@ import java.util.List;
 
 public class CalculateExpandableListAdapter extends BaseExpandableListAdapter {
 
-    private Context mContext;
     private List<String> listTitles;
     private HashMap<String, List<String>> labelsHashMap;
     private HashMap<String, List<String>> valuesHashMap;
 
-    public CalculateExpandableListAdapter(Context context,
-                                          List<String> listTitles,
+    public CalculateExpandableListAdapter(List<String> listTitles,
                                           HashMap<String, List<String>> labelsHashMap,
                                           HashMap<String, List<String>> valuesHashMap) {
-        this.mContext = context;
         this.listTitles = listTitles;
         this.labelsHashMap = labelsHashMap;
         this.valuesHashMap = valuesHashMap;
@@ -52,8 +49,7 @@ public class CalculateExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         List<String> childsOfGroup = valuesHashMap.get(listTitles.get(groupPosition));
-        String child = childsOfGroup.get(childPosition);
-        return child;
+        return childsOfGroup.get(childPosition);
     }
 
     @Override
@@ -74,14 +70,11 @@ public class CalculateExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-        if(convertView == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) this.mContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.calculate_expandable_list_group, null);
-        }
+        if(convertView == null)
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.calculate_expandable_list_group, parent, false);
 
         String title = listTitles.get(groupPosition);
-        TextView groupTitle = (TextView) convertView.findViewById(R.id.calculate_expandable_list_group_title);
+        TextView groupTitle = convertView.findViewById(R.id.calculate_expandable_list_group_title);
         groupTitle.setText(title);
 
         return convertView;
@@ -90,14 +83,11 @@ public class CalculateExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) this.mContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.calculate_expandable_list_item, null);
-        }
+        if (convertView == null)
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.calculate_expandable_list_item, parent, false);
 
-        TextView itemLabel = (TextView) convertView.findViewById(R.id.calculate_expandable_list_item_label);
-        TextView itemValue = (TextView) convertView.findViewById(R.id.calculate_expandable_list_item_value);
+        TextView itemLabel = convertView.findViewById(R.id.calculate_expandable_list_item_label);
+        TextView itemValue = convertView.findViewById(R.id.calculate_expandable_list_item_value);
 
         String label = labelsHashMap.get(listTitles.get(groupPosition)).get(childPosition);
         String value = "";

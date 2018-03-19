@@ -1,10 +1,11 @@
 <resources>
-    <string name="app_name">Estadística</string>
+    <string name="app_name">Estadilandia App</string>
     <string name="tab_calculate">Cálculos</string>
     <string name="tab_graphics">Gráficos</string>
     <string name="tab_theory">Teoría</string>
     <string name="menu_load">Cargar datos muestra</string>
     <string name="menu_random_sample">Generar muestra aleatoria</string>
+    <string name="load_csv">Cargar CSV</string>
     <string name="cancel">Cancelar</string>
     <string name="generate">Generar</string>
     <string name="histogram">Histograma</string>
@@ -49,4 +50,11 @@
     <string name="weibull">Weibull</string>
     <string name="standard_normal">Normal Estándar</string>
     <string name="inverse_standard_normal">Normal Inversa</string>
+    <string name="discrete">Discretos</string>
+    <string name="continuous">Continuos</string>
+    <string name="inverse_exponential">Exponencial Inversa</string>
+    <string name="inverse_gamma">Gamma Inversa</string>
+    <string name="inverse_gumbel">Gumbel Inversa</string>
+    <string name="inverse_weibull">Weibull Inversa</string>
+    <string name="probability_error">El valor de probabilidad debe estar entre 0 y 1.</string>
 </resources>

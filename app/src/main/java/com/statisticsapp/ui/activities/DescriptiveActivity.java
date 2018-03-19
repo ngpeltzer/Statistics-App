@@ -1,4 +1,4 @@
-package com.statisticsapp.Activities;
+package com.statisticsapp.ui.activities;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -21,11 +23,11 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.common.primitives.Doubles;
-import com.statisticsapp.Adapters.CalculateExpandableListAdapter;
-import com.statisticsapp.CustomViews.GenericDialog;
-import com.statisticsapp.Interfaces.GenericDialogListener;
+import com.statisticsapp.ui.adapters.CalculateExpandableListAdapter;
+import com.statisticsapp.ui.dialogs.GenericDialog;
+import com.statisticsapp.ui.interfaces.GenericDialogListener;
 import com.statisticsapp.R;
-import com.statisticsapp.Utils.Constants;
+import com.statisticsapp.utils.Constants;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
@@ -51,20 +53,6 @@ import jxl.read.biff.BiffException;
 
 public class DescriptiveActivity extends AppCompatActivity {
 
-    TabHost mainTabHost;
-    PDFView pdfView;
-    BarChart graphView;
-    TextView stemTxt;
-    TextView leafTxt;
-    ExpandableListView calculateExpandableListView;
-    CalculateExpandableListAdapter cela;
-
-    HashMap<String, List<String>> valuesHashMap;
-    List<String> centralTendencyValues;
-    List<String> positionValues;
-    List<String> dispertionValues;
-    List<String> formValues;
-
     private static final String CALCULATE = "tab1";
     private static final String GRAPHICS = "tab2";
     private static final String THEORY = "tab3";
@@ -79,23 +67,55 @@ public class DescriptiveActivity extends AppCompatActivity {
     //private static int OPEN_CSV_FILE = 3;
     private static int OPEN_EXCEL_FILE = 4;
 
+    private BarChart graphView;
+    private TextView stemTxt;
+    private TextView leafTxt;
+
+    private CalculateExpandableListAdapter cela;
+
+    private HashMap<String, List<String>> valuesHashMap;
+    private List<String> centralTendencyValues;
+    private List<String> positionValues;
+    private List<String> dispertionValues;
+    private List<String> formValues;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_descriptive);
+
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         centralTendencyValues = new ArrayList<>();
         positionValues = new ArrayList<>();
         dispertionValues = new ArrayList<>();
         formValues = new ArrayList<>();
 
-        pdfView = findViewById(R.id.tab_theory_pdf_view);
+        PDFView pdfView = findViewById(R.id.tab_theory_pdf_view);
         graphView = findViewById(R.id.tab_graphs_graph_view);
         stemTxt = findViewById(R.id.tab_graphs_stem);
         leafTxt = findViewById(R.id.tab_graphs_leaf);
 
+        Button generateRandomSampleBtn = findViewById(R.id.tab_calculate_btn_random_sample);
+        generateRandomSampleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showGenerateRandomSampleDialog();
+            }
+        });
+
+        Button loadCsvBtn = findViewById(R.id.tab_calculate_btn_load_csv);
+        loadCsvBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLoadCsvOrExcelFile();
+            }
+        });
+
         // Main Tab Host
-        mainTabHost = findViewById(R.id.activity_main_tab_host);
+        TabHost mainTabHost = findViewById(R.id.activity_main_tab_host);
         mainTabHost.setup();
 
         // Calculate Tab
@@ -170,9 +190,9 @@ public class DescriptiveActivity extends AppCompatActivity {
         valuesHashMap.put(POSITION_MEASURES, positionValues);
         valuesHashMap.put(DISPERTION_MEASURES, dispertionValues);
         valuesHashMap.put(FORM_MEASURES, formValues);
-        cela = new CalculateExpandableListAdapter(this, listTitles, labelsHashMap, valuesHashMap);
+        cela = new CalculateExpandableListAdapter(listTitles, labelsHashMap, valuesHashMap);
 
-        calculateExpandableListView = findViewById(R.id.tab_calculate_expandable_list_view);
+        ExpandableListView calculateExpandableListView = findViewById(R.id.tab_calculate_expandable_list_view);
         calculateExpandableListView.setAdapter(cela);
 
         pdfView.fromAsset("descriptive.pdf")
@@ -193,30 +213,15 @@ public class DescriptiveActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
             case R.id.menu_load_excel:
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                startActivityForResult(intent, OPEN_EXCEL_FILE);
-            break;
+                showLoadCsvOrExcelFile();
+                break;
             case R.id.menu_random_sample:
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                Bundle args = new Bundle();
-                args.putSerializable(Constants.MESSAGE, getString(R.string.dialog_message));
-                args.putSerializable(Constants.BUTTON_OK, getString(R.string.generate));
-                args.putSerializable(Constants.BUTTON_CANCEL, getString(R.string.cancel));
-                args.putSerializable(Constants.TITLE, getString(R.string.dialog_title));
-                final GenericDialog dialog = new GenericDialog();
-                dialog.setArguments(args);
-                dialog.setCallback(new GenericDialogListener() {
-                    @Override
-                    public void onOkPressed(int sampleSize, double median, double stdDeviation) {
-                        DescriptiveStatistics stats = generateRandomSample(median, stdDeviation, sampleSize);
-                        calculateAndShow(stats);
-                        showGraphics(stats);
-                    }
-                });
-                dialog.show(ft, "RandomSample");
-            break;
+                showGenerateRandomSampleDialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -261,37 +266,39 @@ public class DescriptiveActivity extends AppCompatActivity {
                 Toast.makeText(DescriptiveActivity.this, "Debe ingresar un archivo solo con números y solo en la primer columna", Toast.LENGTH_SHORT).show();
             }
 
-            /*FileInputStream fis;
-            CSVReader csvReader;
-
-            try {
-                fis = (FileInputStream) getContentResolver().openInputStream(data.getData());
-                csvReader = new CSVReader(new FileReader(fis.getFD()));
-                String values[] = csvReader.readNext();
-                List<Double> doubleValues = new ArrayList<Double>();
-
-                for(int i = 0; i < values.length; i++)
-                {
-                    doubleValues.add(Double.valueOf(values[i]));
-                }
-
-                DescriptiveStatistics stats = new DescriptiveStatistics(Doubles.toArray(doubleValues));
-                calculateAndShow(stats);
-                showGraphics(stats);
-            } catch (FileNotFoundException ex) {
-                Log.d("FileNotFoundExc", ex.getMessage());
-                Toast.makeText(DescriptiveActivity.this, "Archivo no encontrado", Toast.LENGTH_SHORT).show();
-            } catch (Exception ex) {
-                Log.d("Exception", ex.getMessage());
-                Toast.makeText(DescriptiveActivity.this, "Debe ingresar un archivo solo con números separados por coma", Toast.LENGTH_SHORT).show();
-            }*/
         } else {
             //Toast.makeText(this, "Seleccione un archivo .CSV válido", Toast.LENGTH_SHORT).show();
             Toast.makeText(this, "Seleccione un archivo .XLS válido", Toast.LENGTH_SHORT).show();
         }
     }
 
-    DescriptiveStatistics generateRandomSample(double mean, double standardDeviation, int sampleSize) {
+    private void showGenerateRandomSampleDialog() {
+        Bundle args = new Bundle();
+        args.putSerializable(Constants.MESSAGE, getString(R.string.dialog_message));
+        args.putSerializable(Constants.BUTTON_OK, getString(R.string.generate));
+        args.putSerializable(Constants.BUTTON_CANCEL, getString(R.string.cancel));
+        args.putSerializable(Constants.TITLE, getString(R.string.dialog_title));
+
+        GenericDialog dialog = new GenericDialog();
+        dialog.setArguments(args);
+        dialog.setCallback(new GenericDialogListener() {
+            @Override
+            public void onOkPressed(int sampleSize, double median, double stdDeviation) {
+                DescriptiveStatistics stats = generateRandomSample(median, stdDeviation, sampleSize);
+                calculateAndShow(stats);
+                showGraphics(stats);
+            }
+        });
+        dialog.show(getFragmentManager().beginTransaction(), "RandomSampleDialog");
+    }
+
+    private void showLoadCsvOrExcelFile() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        startActivityForResult(intent, OPEN_EXCEL_FILE);
+    }
+
+    private DescriptiveStatistics generateRandomSample(double mean, double standardDeviation, int sampleSize) {
         DescriptiveStatistics stats = new DescriptiveStatistics();
         RandomDataGenerator rdg = new RandomDataGenerator();
 
@@ -303,7 +310,7 @@ public class DescriptiveActivity extends AppCompatActivity {
         return stats;
     }
 
-    void showGraphics(DescriptiveStatistics stats) {
+    private void showGraphics(DescriptiveStatistics stats) {
         // Data for Histogram and Steam And Leaf diagrams
         double[] data = stats.getValues();
 
@@ -360,13 +367,13 @@ public class DescriptiveActivity extends AppCompatActivity {
         leafTxt.setText(leafsStringBuilder.toString());
     }
 
-    double calculateBinSize(double max, double min, int numBins) {
+    private double calculateBinSize(double max, double min, int numBins) {
         double range = max - min;
         double binSize = range/numBins;
         return binSize;
     }
 
-    double[] calculateBins(int numBins, double binSize, double min) {
+    private double[] calculateBins(int numBins, double binSize, double min) {
         double[] result = new double[numBins];
         result[0] = min;
 
@@ -394,26 +401,11 @@ public class DescriptiveActivity extends AppCompatActivity {
                 result.get(actualStem).add((int)leaf);
             }
         }
-        /*for(int i = 0; i < data.length; i++) {
-            int actualStem = (int)data[i];
-            double leaf = Precision.round(data[i], 1);
-            leaf = (leaf - actualStem) * 10;
-            leaf = Math.abs(Precision.round(leaf, 0, BigDecimal.ROUND_HALF_DOWN));
-
-            if(!result.containsKey(actualStem)) {
-                List<Integer> leafs = new ArrayList<>();
-                leafs.add((int)leaf);
-                result.put(actualStem, leafs);
-            }
-            else {
-                result.get(actualStem).add((int)leaf);
-            }
-        }*/
 
         return result;
     }
 
-    HashMap<String, double[]> calculateHistogram(double[] data, double max, double min, int numBins) {
+    private HashMap<String, double[]> calculateHistogram(double[] data, double max, double min, int numBins) {
         HashMap<String, double[]> histogramData = new HashMap<>();
         double binSize = calculateBinSize(max, min, numBins);
         double[] bins = calculateBins(numBins, binSize, min);    // Calculate the bins to show in the histogram
@@ -432,11 +424,11 @@ public class DescriptiveActivity extends AppCompatActivity {
         return histogramData;
     }
 
-    String formatOutput(double value) {
+    private String formatOutput(double value) {
         return String.format(Locale.getDefault(), "%.2f", value);
     }
 
-    void calculateAndShow(DescriptiveStatistics stats) {
+    private void calculateAndShow(DescriptiveStatistics stats) {
 
         // Centralization Measures
         double arithmeticMedia = stats.getMean();

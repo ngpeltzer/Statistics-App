@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.statisticsapp.Activities.ModelsActivity">
+    tools:context=".ui.activities.ModelsActivity">
 
     <TabHost
         android:id="@+id/activity_main_tab_host"
@@ -39,7 +39,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="-4dp"
                 android:layout_alignParentTop="true"/>
-
 
         </RelativeLayout>
     </TabHost>

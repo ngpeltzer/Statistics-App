@@ -9,21 +9,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name="com.statisticsapp.Activities.DescriptiveActivity"
-            android:label="Descriptiva"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name="com.statisticsapp.Activities.MainActivity">
+        <activity android:name=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.statisticsapp.Activities.ModelsActivity"
-            android:label="Modelos"
+        <activity
+            android:name=".ui.activities.DescriptiveActivity"
+            android:label="Descriptiva"
             android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".ui.activities.ModelsActivity"
+            android:label="Modelos"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
         </activity>
 
     </application>

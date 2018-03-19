@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tab1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,17 +8,32 @@
     android:padding="15dp" >
 
     <LinearLayout
+        android:weightSum="2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <ExpandableListView
-            android:id="@+id/tab_calculate_expandable_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+        <Button
+            android:id="@+id/tab_calculate_btn_random_sample"
+            android:text="@string/menu_random_sample"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/tab_calculate_btn_load_csv"
+            android:text="@string/load_csv"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
+
+    <ExpandableListView
+        android:id="@+id/tab_calculate_expandable_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

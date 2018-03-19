@@ -1,37 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:weightSum="2"
+    android:layout_margin="@dimen/default_margin">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/calculate_expandable_list_item_label"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        android:orientation="horizontal">
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/text_view_padding_bottom"
+        android:paddingLeft="@dimen/text_view_padding_left"
+        android:paddingStart="@dimen/text_view_padding_left"
+        android:paddingRight="@dimen/text_view_padding_right"
+        android:paddingEnd="@dimen/text_view_padding_right"
+        android:paddingTop="@dimen/text_view_padding_top"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/black"
+        android:gravity="start"
+        android:textSize="@dimen/text_size" />
 
-        <TextView
-            android:id="@+id/calculate_expandable_list_item_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingBottom="@dimen/text_view_padding_bottom"
-            android:paddingLeft="@dimen/text_view_padding_left"
-            android:paddingRight="@dimen/text_view_padding_right"
-            android:paddingTop="@dimen/text_view_padding_top"
-            android:textAlignment="textStart"
-            android:textSize="@dimen/text_size" />
+    <TextView
+        android:id="@+id/calculate_expandable_list_item_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/text_view_padding_bottom"
+        android:paddingLeft="@dimen/text_view_padding_left"
+        android:paddingStart="@dimen/text_view_padding_left"
+        android:paddingRight="@dimen/text_view_padding_right"
+        android:paddingEnd="@dimen/text_view_padding_right"
+        android:paddingTop="@dimen/text_view_padding_top"
+        android:textAlignment="textEnd"
+        android:textColor="@android:color/black"
+        android:gravity="end"
+        android:textSize="@dimen/text_size" />
 
-        <TextView
-            android:id="@+id/calculate_expandable_list_item_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingBottom="@dimen/text_view_padding_bottom"
-            android:paddingLeft="@dimen/text_view_padding_left"
-            android:paddingRight="@dimen/text_view_padding_right"
-            android:paddingTop="@dimen/text_view_padding_top"
-            android:textAlignment="textEnd"
-            android:textSize="@dimen/text_size" />
-    </LinearLayout>
 </LinearLayout>

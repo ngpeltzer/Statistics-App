@@ -1,4 +1,4 @@
-package com.statisticsapp.CustomViews;
+package com.statisticsapp.ui.dialogs;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -15,18 +15,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.statisticsapp.Interfaces.GenericDialogListener;
+import com.statisticsapp.ui.interfaces.GenericDialogListener;
 import com.statisticsapp.R;
-import com.statisticsapp.Utils.Constants;
+import com.statisticsapp.utils.Constants;
 
 public class GenericDialog extends DialogFragment  {
 
-    GenericDialogListener callback;
-    String message;
-    String title;
-    String buttonOk;
-    String buttonCancel;
-
+    private GenericDialogListener callback;
+    private String message;
+    private String title;
+    private String buttonOk;
+    private String buttonCancel;
 
     @Override
     public void setArguments(Bundle args) {
