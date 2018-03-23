@@ -2,12 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.statisticsapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".StatisticsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="11fa9840fae8569d567e9c1312b361bf9506595a" />
 
         <activity android:name=".ui.activities.MainActivity">
             <intent-filter>
