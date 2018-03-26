@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/sample_size" />
+                    android:text="@string/tests_count" />
 
 
                 <EditText

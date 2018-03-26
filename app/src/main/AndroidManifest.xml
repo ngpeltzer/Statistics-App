@@ -14,7 +14,7 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="11fa9840fae8569d567e9c1312b361bf9506595a" />
+            android:value="3598ef46831c178b0bca8b3a9aa1894d29c4136b" />
 
         <activity android:name=".ui.activities.MainActivity">
             <intent-filter>

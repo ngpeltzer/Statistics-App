@@ -57,4 +57,5 @@
     <string name="inverse_gumbel">Gumbel Inversa</string>
     <string name="inverse_weibull">Weibull Inversa</string>
     <string name="probability_error">El valor de probabilidad debe estar entre 0 y 1.</string>
+    <string name="tests_count">Cantidad de pruebas:</string>
 </resources>
