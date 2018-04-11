@@ -63,8 +63,3 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-configurations {
-    all {
-        exclude module: 'commons-logging'
-    }
-}
