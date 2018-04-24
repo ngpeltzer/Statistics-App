@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/EstadilandiaApp.iml" filepath="$PROJECT_DIR$/EstadilandiaApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/Project.iml" filepath="$PROJECT_DIR$/Project.iml" />
       <module fileurl="file://$PROJECT_DIR$/Statistics-App.iml" filepath="$PROJECT_DIR$/Statistics-App.iml" />
       <module fileurl="file://$PROJECT_DIR$/StatisticsApp.iml" filepath="$PROJECT_DIR$/StatisticsApp.iml" />
